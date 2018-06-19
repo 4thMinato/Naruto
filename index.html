@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+
+<html>
+   <head>
+		<meta charset = "utf-8">
+		<title></title>
+		<style type = "text/css">
+			font.a	{font-size: 50px;
+					 color: yellow;
+					 text-align: center;
+					 position: relative;
+					 font-weight: bold;
+					 background-color: #9566F2;
+					 }
+			table.a	{width: 1000px;
+					 height: 600px;
+					 margin-left: auto; 
+					 margin-right: auto;
+					 margin-top: 20px;
+					 background-color: red;
+					 border-color: black;
+					 border-style:solid;
+					 border-width:3px;
+					 }
+			td 		{background-color: white;
+					 width: 11%;
+					 vertical-align:top}
+			h3 		{}
+			table.b	{width: 100%;
+					 height: 100%; 
+					 border-color: black;
+					 border:3px black solid;}
+			div.a	{text-align:justify;
+					 overflow: auto;
+					 height: 38%;
+					 width: 90%;
+					 margin-left: auto; 
+					 margin-right: auto;
+					 margin-top: 10px;
+					 border-width: 5px;
+					 border-style: double; 
+					 border-color: black;}
+			div.b	{height: 40%;
+					 width: 70%;
+					 margin-top: 10px;
+					 margin-bottom: 10px;
+					 margin-left: 10px;
+					 margin-right: auto;
+					 border-style: ridge;
+					 border-width: 5px;
+					 border-color: red;
+					 float: left;}
+			div.c	{width: 26%;
+					 height: 6%;
+					 margin-left: auto; 
+					 margin-right: auto;
+					 border-width: 5px;
+					 border-color: red;
+					 border-style: ridge;
+					 float: left;
+					 margin-left: 10px;
+					 margin-bottom: 7px;
+					 margin-top: 12px;
+					 text-align: center;
+					 font-weight: bold;}
+			div.d	{width: 26%;
+					 height: 6%;
+					 border-width: 5px;
+					 border-color: red;
+					 border-style: ridge;
+					 float: left;
+					 margin-left: 10px;
+					 margin-bottom: 19px;
+					 text-align: center;
+					 font-weight: bold;}
+			.s		{width: 26px;
+					 height: 26px;
+					 float: left;}
+			.s2		{width: 26px;
+					 height: 26px;
+					 position: relative;
+					 top: 4px;}
+			.s3		{width: 26px;
+					 height: 26px;
+					 position: relative;
+					 top: 4px;}
+			font	{position: relative;
+					 top: -4px;}
+			span.sc	{color: blue;
+					 font-weight: bold;}
+			span.nc	{color: yellow;
+					 font-weight: bold;}
+			span.hc	{color: #800000;
+					 font-weight: bold;}
+			span.dice{color: white;
+					  font-weight: bold;}
+			span.spot{color: #808000;
+					  font-weight: bold;}
+			span.hurt{color: #FF0000;}
+			span.e1	{color: green;}
+			span.e2	{color: blue;}
+			span.e3	{color: purple;}
+			span.e4	{color: yellow;}
+			span.end{text-align: center;
+					 font-weight: bold;
+					 font-size: 50px;
+					 color: orange;
+					 background-color: black;}
+			span.tail{color: #8a2be2;
+					 font-weight: bold;}
+			div.end1{position:absolute;
+					 top:200px;
+					 left:500px;
+					 z-index:100;
+					 width = 420px;}
+			div.end2{position:absolute;
+					 top:200px;
+					 left:400px;
+					 z-index:100;
+					 width = 420px;}
+			div.end3{position:absolute;
+					 top:100px;
+					 left:550px;
+					 z-index:100;
+					 width = 420px;}
+		</style>
+		<script>
+			var die1Image;var die2Image;var button;var play;
+			var d, d1 = 0, d2 = 0, times = 0;
+			var S = new Array(39);var Sp = 0, S_middle = 0, proS = 0, S_HP = 20000, S_ATK = 4000, S_DEF = 2500, N_skill = 1, N_cool = 100000;
+			var N = new Array(39);var Np = 0, N_middle = 0, proN = 0, N_HP = 25000, N_ATK = 2500, N_DEF = 3000, S_skill = 1, S_cool = 100000; 
+			var H = new Array(39);var Hp = 0, H_middle = 0, proH = 0, H_HP = 5000000, H_ATK = 20000, H_DEF = 15000;
+			var a = new Array(39);var turns = 0;
+			var M = "木葉村 木葉森林 木業訓練場 木葉森林深處 命運 草波海岸 島龜 命運 雲隱村 雲雷峽 波之國 命運 鐵之國雪原 鐵之國城門 命運 五影會談現場 岩隱村 戰場忍刀七人眾 枯木之森 短冊街 命運 寺橋 風之國沙漠 命運 沙隱村 一線天 風之國沙漠 熱沙荒野 命運 川之國峽谷 火之國森林 木葉森林 木葉懸崖 死亡森林 死亡森林深處 霧隱村 命運 大蛇丸基地外圍 天地橋";
+			var map = M.split(' ');
+			var m_NATK = 1500,m_NHP = 25000,m_NDEF = 3000;r_NHP = 200;r_NATK = 500;r_NDEF = 300;
+			var m_SATK = 3500,m_SHP = 20000,m_SDEF = 1500;r_SHP = 200;r_SATK = 1000;r_SDEF = 100;
+			var item = "下忍護鏡 下忍上衣 下忍指環 下忍飛鏢 下忍卷軸 中忍護額 中忍鎖甲 中忍指環 中忍苦無 中忍手冊 上忍面具 上忍背心 上忍項鍊 上忍之刃 上忍卷軸 影之斗笠 影之長袍 影之羈絆 影之忍刀 影之卷軸"
+			var item_name = item.split(' ');
+			var T = "一尾 二尾 三尾 四尾 五尾 六尾 七尾 八尾 九尾 十尾"
+			var tail = T.split(' ');
+			var N_equipment = new Array(6);var S_equipment = new Array(6);var H_equipment = 0;
+			var village = new Array(5);
+			var destiny = new Array(8);var win = 0;var final = 2;max_S = 0;max_N=0;
+			var confirm;var check = 0;
+			
+			function start(){
+				button = document.getElementById( "rollButton" );
+				play = document.getElementById( "play" );
+				play.addEventListener( "click", restart, false );
+				detail();
+				document.getElementById( "h_skill" ).disabled = true;
+				for(var i = 0; i < 39; i++){a[i] = document.getElementById( "a"+ i );}
+				for(var i = 0; i < 5;i++){village[i]=0;}
+				for(var i = 0; i < 6;i++){N_equipment[i]=0;S_equipment[i]=0;}
+				for(var i = 0; i < 8; i++){destiny[i]=0;}
+				if(turns == 0)document.getElementById('s_skill').disabled = true;
+				confirm = document.getElementById('confirm');
+				confirm.disabled = true;
+				roll();
+				die1Image = document.getElementById( "die1" );
+				die2Image = document.getElementById( "die2" );
+			}
+			
+			function detail(){
+				document.getElementById('n_HP').innerHTML = "血量: " + N_HP.toFixed(0);document.getElementById('n_DEF').innerHTML = "防禦: " + N_DEF.toFixed(0);
+				document.getElementById('s_HP').innerHTML = "血量: " + S_HP.toFixed(0);document.getElementById('s_DEF').innerHTML = "防禦: " + S_DEF.toFixed(0);
+				document.getElementById('h_HP').innerHTML = "血量: " + H_HP.toFixed(0);document.getElementById('h_DEF').innerHTML = "防禦: " + H_DEF.toFixed(0);
+				document.getElementById('n_ATK').innerHTML = "攻擊: " + N_ATK.toFixed(0);
+				document.getElementById('s_ATK').innerHTML = "攻擊: " + S_ATK.toFixed(0);
+				document.getElementById('h_ATK').innerHTML = "攻擊: " + H_ATK.toFixed(0);
+			}
+			
+			function break5(i){
+				if(i==1){document.getElementById('t0').setAttribute("background","木葉村毀.png");}
+				if(i==2){document.getElementById('t8').setAttribute("background","雲隱村毀.png");}
+				if(i==3){document.getElementById('t35').setAttribute("background","霧隱村毀.png");}
+				if(i==4){document.getElementById('t24').setAttribute("background","沙隱村毀.jpg");}
+				if(i==5){document.getElementById('t16').setAttribute("background","岩隱村毀.png");}
+			}
+			
+			function recover(i){
+				if(i==1){document.getElementById('t0').setAttribute("background","木葉村.jpg");}
+				if(i==2){document.getElementById('t8').setAttribute("background","雲隱村.jpg");}
+				if(i==3){document.getElementById('t35').setAttribute("background","霧隱村.jpg");}
+				if(i==4){document.getElementById('t24').setAttribute("background","沙隱村.jpg");}
+				if(i==5){document.getElementById('t16').setAttribute("background","岩隱村.jpg");}
+			}
+			
+			function fobidden(i){
+				document.getElementById('t'+i).setAttribute("background","命運封.png");
+			}
+			
+			function release(i){
+				document.getElementById('t'+i).setAttribute("background","命運.png");
+			}
+			
+			function roll(){
+				button.addEventListener( "click", rollDice, false );
+				confirm.addEventListener( "click", rollDice, false );
+			}
+			
+			function restart(){
+				document.getElementById('END').innerHTML = '';
+				m_NATK = 1500;m_NHP = 25000;m_NDEF = 3000;r_NHP = 200;r_NATK = 500;r_NDEF = 300;
+				m_SATK = 3500;m_SHP = 20000;m_SDEF = 1500;r_SHP = 200;r_SATK = 1000;r_SDEF = 100;
+				Sp = 0; S_middle = 0; proS = 0; S_HP = 20000; S_ATK = 4000; S_DEF = 1500; N_skill = 1; N_cool = 100000;
+				Np = 0; N_middle = 0; proN = 0; N_HP = 25000; N_ATK = 1500; N_DEF = 3000; S_skill = 1; S_cool = 100000; 
+				Hp = 0; H_middle = 0; proH = 0; H_HP = 5000000; H_ATK = 20000; H_DEF = 15000;
+				win = 0;final = 2;check = 0;turns = 0;times = 0;H_equipment = 0;
+				if(turns == 0)document.getElementById('s_skill').disabled = true;
+				document.getElementById('n_skill').disabled = false;
+				confirm = document.getElementById('confirm');
+				confirm.disabled = true;
+				button.disabled = false;
+				document.getElementById('n_equipment').innerHTML = '裝備: ';
+				document.getElementById('h_equipment').innerHTML = '裝備: ';
+				document.getElementById('s_equipment').innerHTML = '裝備: ';
+				for(var i = 1; i <= 5;i++){recover(i);}
+				release(4);release(7);release(11);release(14);release(20);release(23);release(28);release(36);max_S = 0;max_N=0;
+				roll();
+				a[0].innerHTML = "<img src = '鳴人.png' class = 's'><img src = '佐助.png' class = 's'><img src = '輝夜.png' class = 's'>";
+				for(var i = 1; i < 39; i++){a[i].innerHTML = "";S[i] = 0;N[i] = 0;H[i] = 0;}
+				for(var i = 0; i < 5;i++){village[i]=0;}
+				for(var i = 0; i < 6;i++){N_equipment[i]=0;S_equipment[i]=0;}
+				for(var i = 0; i < 8; i++){destiny[i]=0;}detail();
+				document.getElementById('s').setAttribute('class', 'c');document.getElementById('n').setAttribute('class', 'd');document.getElementById('h').setAttribute('class', 'c');
+				document.getElementById('msg').innerHTML = "這裡是第四次忍界大戰(一到兩人遊玩)<br>玩家扮演<span class = 'nc'>鳴人</span>和<span class = 'sc'>佐助</span><br>並想辦法打贏<span class = 'hc'>輝夜</span><br><span class = 'hurt'>祝你們好運!</span>!<br>";
+				
+			}
+			
+			function damage(A, D){
+				if (D > A)return 1;
+				else return (A - D)
+			}
+			
+			function setMap(){
+				if(final==1){
+					if(Sp == Np){a[Np].innerHTML = "<img src = '鳴人.png' class = 's'><img src = '佐助.png' class = 's'>";a[Hp].innerHTML = "<img src = '輝夜.png' class = 's'>";document.getElementById('t'+Sp).style.borderColor="white";}
+					else {
+						a[Np].innerHTML = "<img src = '鳴人.png' class = 's'>";
+						a[Sp].innerHTML = "<img src = '佐助.png' class = 's'>";
+						document.getElementById('t'+Sp).style.borderColor="white";
+						document.getElementById('t'+Np).style.borderColor="white";
+					}
+				}
+				else if(S_HP<=0){
+					if(Hp == Np){a[Np].innerHTML = "<img src = '鳴人.png' class = 's'><img src = '輝夜.png' class = 's'>";a[Sp].innerHTML = "<img src = '佐助.png' class = 's'>";document.getElementById('t'+Np).style.borderColor="white";}
+					else {
+						a[Np].innerHTML = "<img src = '鳴人.png' class = 's'>";
+						a[Hp].innerHTML = "<img src = '輝夜.png' class = 's'>";
+						document.getElementById('t'+Hp).style.borderColor="white";
+						document.getElementById('t'+Np).style.borderColor="white";
+					}
+				}
+				else if(N_HP<=0){
+					if(Sp == Hp){a[Sp].innerHTML = "<img src = '佐助.png' class = 's'><img src = '輝夜.png' class = 's'>";a[Np].innerHTML = "<img src = '鳴人.png' class = 's'>";document.getElementById('t'+Hp).style.borderColor="white";}
+					else {
+						a[Sp].innerHTML = "<img src = '佐助.png' class = 's'>";
+						a[Hp].innerHTML = "<img src = '輝夜.png' class = 's'>";
+						document.getElementById('t'+Hp).style.borderColor="white";
+						document.getElementById('t'+Sp).style.borderColor="white";
+					}
+				}
+				else {
+					if(Sp == Np && Sp == Hp){a[Np].innerHTML = "<img src = '鳴人.png' class = 's'><img src = '佐助.png' class = 's'><img src = '輝夜.png' class = 's'>";document.getElementById('t'+Hp).style.borderColor="white";}
+					else if(Sp == Np){a[Np].innerHTML = "<img src = '鳴人.png' class = 's'><img src = '佐助.png' class = 's'>";a[Hp].innerHTML = "<img src = '輝夜.png' class = 's'>";document.getElementById('t'+Np).style.borderColor="white";}
+					else if(Hp == Np){a[Np].innerHTML = "<img src = '鳴人.png' class = 's'><img src = '輝夜.png' class = 's'>";a[Sp].innerHTML = "<img src = '佐助.png' class = 's'>";document.getElementById('t'+Hp).style.borderColor="white";}
+					else if(Sp == Hp){a[Sp].innerHTML = "<img src = '佐助.png' class = 's'><img src = '輝夜.png' class = 's'>";a[Np].innerHTML = "<img src = '鳴人.png' class = 's'>";document.getElementById('t'+Hp).style.borderColor="white";}
+					else {
+						a[Np].innerHTML = "<img src = '鳴人.png' class = 's'>";
+						a[Sp].innerHTML = "<img src = '佐助.png' class = 's'>";
+						a[Hp].innerHTML = "<img src = '輝夜.png' class = 's'>";
+						document.getElementById('t'+Np).style.borderColor="white";
+						document.getElementById('t'+Hp).style.borderColor="white";
+						document.getElementById('t'+Sp).style.borderColor="white";
+					}
+				}
+			}
+			
+			function initialMap(){
+				if(Sp == Np && Sp == Hp)a[Np].innerHTML = "";
+				else if(Sp == Np){a[Np].innerHTML = "";a[Hp].innerHTML = "";}
+				else if(Sp == Hp){a[Np].innerHTML = "";a[Hp].innerHTML = "";}
+				else if(Hp == Np){a[Np].innerHTML = "";a[Sp].innerHTML = "";}
+				else {
+					a[Np].innerHTML = "";
+					a[Sp].innerHTML = "";
+					a[Hp].innerHTML = "";
+				}
+				document.getElementById('t'+Np).style.borderColor="red";
+				document.getElementById('t'+Hp).style.borderColor="red";
+				document.getElementById('t'+Sp).style.borderColor="red";
+			}
+			
+			function N_EQ(){
+				if((Np == 0&&village[0]==0)||(Np == 8&&village[1]==0)||(Np == 35&&village[2]==0)||(Np == 24&&village[3]==0)||(Np == 16&&village[4]==0)){
+					if(max_N<20){
+						var I = Math.floor( 1+Math.random() * 5 );
+						while(N_equipment[I]>=4){I = Math.floor( 1+Math.random() * 5 );}
+						max_N++;
+						N_equipment[I]++;N_improve(I);
+						document.getElementById('msg').innerHTML+="<span class = 'nc'>鳴人</span>獲得了<span class = 'e"+N_equipment[I]+"'>"+item_name[(N_equipment[I]-1)*5+I-1]+"</span>!<br>";
+						N_show();
+						if(max_N==20){
+							document.getElementById('END').setAttribute("class","end1");
+							document.getElementById('END').innerHTML="<img src = '鳴人滿裝.jpg' style='border:10px black solid;width: 640px; height: 360px;'><br>&nbsp&nbsp&nbsp<span class = 'end'>鳴人滿裝</span>"
+							setTimeout("document.getElementById('END').innerHTML=''",3000);
+						}
+					}
+					else {
+						document.getElementById('msg').innerHTML+="裝備滿了!<br>";
+					}
+				}
+			}
+			
+			function N_show(){
+				var k = document.getElementById('n_equipment');
+				k.innerHTML = '<font>裝備:&nbsp</font>';
+				for(var i = 1; i < 6;i++){
+					if(N_equipment[i]==1)k.innerHTML+="<img src = '"+i+"1.png' class = 's3'>"
+					if(N_equipment[i]==2)k.innerHTML+="<img src = '"+i+"2.png' class = 's3'>"
+					if(N_equipment[i]==3)k.innerHTML+="<img src = '"+i+"3.png' class = 's3'>"
+					if(N_equipment[i]==4)k.innerHTML+="<img src = '"+i+"4.png' class = 's3'>"
+					if(N_equipment[i]==5)k.innerHTML+="<img src = '"+i+"4.png' class = 's3'>"
+				}
+			}
+			
+			function N_improve(I){
+				if(I=1){
+					if(N_equipment[I]==1){N_HP+=5000;m_NHP+=5000;r_NHP+=300;}
+					if(N_equipment[I]==2){N_HP+=15000;m_NHP+=15000;r_NHP+=1500;}
+					if(N_equipment[I]==3){N_HP+=50000;m_NHP+=50000;r_NHP+=3000;}
+					if(N_equipment[I]==4){N_HP+=100000;m_NHP+=100000;r_NHP+=5000;}
+				}
+				if(I=2){
+					if(N_equipment[I]==1){N_DEF+=1000;m_NDEF+=1000;r_NDEF+=200;}
+					if(N_equipment[I]==2){N_DEF+=3500;m_NDEF+=3500;r_NDEF+=500;}
+					if(N_equipment[I]==3){N_DEF+=10000;m_NDEF+=10000;r_NDEF+=1000;}
+					if(N_equipment[I]==4){N_DEF+=200000;m_NDEF+=200000;r_NDEF+=10000;}
+				}
+				if(I=3){
+					if(N_equipment[I]==1){m_NHP*=1.2;N_HP=m_NHP;m_NDEF*=1.2;N_DEF=m_NDEF;m_NATK*=1.2;N_ATK=m_NATK;}
+					if(N_equipment[I]==2){m_NHP*=1.5;N_HP=m_NHP;m_NDEF*=1.5;N_DEF=m_NDEF;m_NATK*=1.5;N_ATK=m_NATK;}
+					if(N_equipment[I]==3){m_NHP*=2;N_HP=m_NHP;m_NDEF*=2;N_DEF=m_NDEF;m_NATK*=2;N_ATK=m_NATK;}
+					if(N_equipment[I]==4){m_NHP*=3;N_HP=m_NHP;m_NDEF*=3;N_DEF=m_NDEF;m_NATK*=3;N_ATK=m_NATK;}
+				}
+				if(I=4){
+					if(N_equipment[I]==1){N_ATK+=1000;m_NATK+=1000;r_NATK+=500;}
+					if(N_equipment[I]==2){N_ATK+=5000;m_NATK+=5000;r_NATK+=1500;}
+					if(N_equipment[I]==3){N_ATK+=10000;m_NATK+=10000;r_NATK+=3000;}
+					if(N_equipment[I]==4){N_ATK+=200000;m_NATK+=200000;r_NATK+=10000;}
+				}
+				if(I=4){
+					if(N_equipment[I]==1){N_ATK+=1000;m_NATK+=1000;}
+					if(N_equipment[I]==2){N_ATK+=5000;m_NATK+=5000;}
+					if(N_equipment[I]==3){N_ATK*=2;m_NATK*=2;}
+					if(N_equipment[I]==4){N_ATK*=5;m_NATK*=5;}
+				}
+				detail();
+			}
+			
+			function S_improve(I){
+				if(I=1){
+					if(S_equipment[I]==1){S_HP+=5000;m_SHP+=5000;r_SHP+=300;}
+					if(S_equipment[I]==2){S_HP+=15000;m_SHP+=15000;r_SHP+=1500;}
+					if(S_equipment[I]==3){S_HP+=50000;m_SHP+=50000;r_SHP+=3000;}
+					if(S_equipment[I]==4){S_HP+=100000;m_SHP+=100000;r_SHP+=5000;}
+				}
+				if(I=2){
+					if(S_equipment[I]==1){S_DEF+=1000;m_SDEF+=1000;r_SDEF+=200;}
+					if(S_equipment[I]==2){S_DEF+=3500;m_SDEF+=3500;r_SDEF+=500;}
+					if(S_equipment[I]==3){S_DEF+=10000;m_SDEF+=10000;r_SDEF+=1000;}
+					if(S_equipment[I]==4){S_DEF+=200000;m_SDEF+=200000;r_SDEF+=10000;}
+				}
+				if(I=3){
+					if(S_equipment[I]==1){m_SHP*=1.2;S_HP=m_NHP;m_SDEF*=1.2;S_DEF=m_SDEF;m_SATK*=1.2;S_ATK=m_SATK;}
+					if(S_equipment[I]==2){m_SHP*=1.5;S_HP=m_NHP;m_SDEF*=1.5;S_DEF=m_SDEF;m_SATK*=1.5;S_ATK=m_SATK;}
+					if(S_equipment[I]==3){m_SHP*=2;S_HP=m_NHP;m_SDEF*=2;S_DEF=m_SDEF;m_SATK*=2;S_ATK=m_SATK;}
+					if(S_equipment[I]==4){m_SHP*=3;S_HP=m_NHP;m_SDEF*=3;S_DEF=m_SDEF;m_SATK*=3;S_ATK=m_SATK;}
+				}
+				if(I=4){
+					if(S_equipment[I]==1){S_ATK+=1000;m_SATK+=1000;r_SATK+=500;}
+					if(S_equipment[I]==2){S_ATK+=5000;m_SATK+=5000;r_SATK+=1500;}
+					if(S_equipment[I]==3){S_ATK+=10000;m_SATK+=10000;r_SATK+=3000;}
+					if(S_equipment[I]==4){S_ATK+=200000;m_SATK+=200000;r_SATK+=10000;}
+				}
+				if(I=4){
+					if(S_equipment[I]==1){S_ATK+=1000;m_SATK+=1000;}
+					if(S_equipment[I]==2){S_ATK+=5000;m_SATK+=5000;}
+					if(S_equipment[I]==3){S_ATK*=2;m_SATK*=2;}
+					if(S_equipment[I]==4){S_ATK*=5;m_SATK*=5;}
+				}
+				detail();
+			}
+						
+			function H_improve(){
+				if(H_equipment==1){H_HP+=10000;H_ATK+=8000;H_DEF+= 8000;}
+				if(H_equipment==2){H_HP+=80000;H_ATK+=15000;H_DEF+=15000;}
+				if(H_equipment==3){H_HP+=100000;H_ATK+=20000;H_DEF+=30000;}
+				if(H_equipment==4){H_HP+=150000;H_ATK+=35000;H_DEF+=50000;}
+				if(H_equipment==5){H_HP+=250000;H_ATK+=100000;H_DEF+=80000;}
+				if(H_equipment==6){H_HP+=3500000;H_ATK+=350000;H_DEF+=1000000;}
+				if(H_equipment==7){H_HP+=5000000;H_ATK+=1000000;H_DEF+=1500000;}
+				if(H_equipment==8){H_HP+=8000000;H_ATK+=2500000;H_DEF+=2000000;}
+				if(H_equipment==9){H_HP+=10000000000;H_ATK+=5000000000;H_DEF+=3000000000;}
+				if(H_equipment==10){H_HP*=100;H_ATK*=100;H_DEF+=100;}
+				detail();
+			}
+
+			function S_EQ(){
+				if((Sp == 0&&village[0]==0)||(Sp== 8&&village[1]==0)||(Sp == 35&&village[2]==0)||(Sp == 24&&village[3]==0)||(Sp == 16&&village[4]==0)){
+					if(max_S<20){
+						var I = Math.floor(1+Math.random() * 5 );
+						while(S_equipment[I]>=4){I = Math.floor(1+Math.random() * 5 );}
+						max_S++;
+						S_equipment[I]++;S_improve(I);
+						document.getElementById('msg').innerHTML+="<span class = 'sc'>佐助</span>獲得了<span class = 'e"+S_equipment[I]+"'>"+item_name[(S_equipment[I]-1)*5+I-1]+"</span>!<br>";console.log(I);
+						S_show();
+						if(max_S==20){
+							document.getElementById('END').setAttribute("class","end3");
+							document.getElementById('END').innerHTML="<img src = '佐助滿裝.jpg' style='border:10px black solid;width: 450px; height: 450px;'><br>&nbsp&nbsp&nbsp<span class = 'end'>佐助滿裝</span>"
+							setTimeout("document.getElementById('END').innerHTML=''",3000);
+						}
+					}
+					else {
+						document.getElementById('msg').innerHTML+="裝備滿了!<br>";
+					}
+				}
+			}
+						
+			function S_show(){
+				var k = document.getElementById('s_equipment');
+				k.innerHTML = '<font>裝備:&nbsp</font>';
+				for(var i = 1; i <= 5;i++){
+					if(S_equipment[i]==1)k.innerHTML+="<img src = '"+i+"1.png' class = 's3'>"
+					if(S_equipment[i]==2)k.innerHTML+="<img src = '"+i+"2.png' class = 's3'>"
+					if(S_equipment[i]==3)k.innerHTML+="<img src = '"+i+"3.png' class = 's3'>"
+					if(S_equipment[i]==4)k.innerHTML+="<img src = '"+i+"4.png' class = 's3'>"
+					if(S_equipment[i]==5)k.innerHTML+="<img src = '"+i+"1.png' class = 's3'>"
+					}
+				}
+				
+			function H_EQ(){
+				if((Hp==4&&destiny[0]==0)||(Hp==7&&destiny[1]==0)||(Hp==11&&destiny[2]==0)||(Hp==14&&destiny[3]==0)||(Hp==20&&destiny[4]==0)||(Hp==23&&destiny[5]==0)||(Hp==28&&destiny[6]==0)||(Hp==36&&destiny[7]==0)){
+					document.getElementById('msg').innerHTML+="<span class = 'hc'>輝夜</span>獲得了<span class='tail'>"+tail[H_equipment]+"</span>!<br>";
+					if(H_equipment!=10){H_equipment++;H_improve();}
+					H_show();					
+				}
+				else if(Hp==4)destiny[0]==0;
+				else if(Hp==7)destiny[1]==0;
+				else if(Hp==11)destiny[2]==0;
+				else if(Hp==14)destiny[3]==0;
+				else if(Hp==20)destiny[4]==0;
+				else if(Hp==23)destiny[5]==0;
+				else if(Hp==28)destiny[6]==0;
+				else if(Hp==36)destiny[7]==0;
+			}
+			
+			function H_show(){
+				document.getElementById('h_equipment').innerHTML = "<font>裝備:&nbsp</font>";
+				for(var i = 1; i <= H_equipment;i++){
+					document.getElementById('h_equipment').innerHTML+="<img src = '"+i+"尾.png' class = 's3'>"
+				}
+				if(H_equipment==10){document.getElementById('END').setAttribute("class","end2");
+					document.getElementById('END').innerHTML="<img src = '10尾復活.png' style='border:10px black solid;width = 630px;height: 350px'><br>&nbsp&nbsp&nbsp<span class = 'end'>十尾復活</span>";
+					setTimeout("document.getElementById('END').innerHTML=''",4000);}
+			}
+			
+			function fight2(){
+				if(turns==0){N_cool = 100000;S_cool = 100000;}
+				if(turns%2 == 1){document.getElementById('s').setAttribute('class', 'c');document.getElementById('n').setAttribute('class', 'd');document.getElementById('h').setAttribute('class', 'c');}
+				else if (turns%2 == 0){document.getElementById('s').setAttribute('class', 'd');document.getElementById('n').setAttribute('class', 'c');document.getElementById('h').setAttribute('class', 'c');}
+				if(turns%2 == 0&&turns!=N_cool){
+					Naruto2();
+					if(m_NHP>=N_HP+r_NHP)N_HP += r_NHP;
+					else if(m_NHP!=N_HP)N_HP=m_NHP;
+					N_ATK+=r_NATK;N_DEF += r_NDEF;detail();
+					document.getElementById("n_skill").disabled = true;
+					if(S_cool+5<=turns||S_cool==100000)document.getElementById("s_skill").disabled = false;
+				}
+				else if(turns%2 == 1){
+					Sasuke2();
+					if(m_SHP>=S_HP+r_SHP)S_HP += r_SHP;
+					else if(m_SHP!=S_HP)S_HP=m_SHP;
+					S_ATK+=r_SATK;S_DEF += r_SDEF;detail();
+					document.getElementById("s_skill").disabled = true;
+					if(N_cool+9<=turns||N_cool==100000)document.getElementById("n_skill").disabled = false;
+					if(H_HP>0)document.getElementById("msg").innerHTML+="輪到<span class = 'hc'>輝夜</span>了!(請按確定)<br>";
+				}
+				if(N_HP<=0||S_HP<=0){win = 1;turns = 0;setTimeout(Winning,100);return;}
+				if(turns%2 == 1&&turns<=N_cool+9&&turns>=N_cool){if(((N_cool+9-turns)/2)==0){document.getElementById('msg').innerHTML += "<span class = 'nc'>鳴人</span>可以使用技能了!<br>";
+				document.getElementById("n_skill").disabled = false;}
+				else if(turns%2 == 1)document.getElementById('msg').innerHTML += "<span class = 'nc'>鳴人</span>技能冷卻還有"+((N_cool+9-turns)/2)+"回合!<br>";}
+				if(turns%2 == 0&&turns<=S_cool+5&&turns>=S_cool){if(((S_cool+5-turns)/2)==0){document.getElementById('msg').innerHTML += "<span class = 'sc'>佐助</span>可以使用技能了!<br>";
+				document.getElementById("s_skill").disabled = false;}
+				else if(turns%2 == 0) document.getElementById('msg').innerHTML += "<span class = 'sc'>佐助</span>技能冷卻還有"+((S_cool+5-turns)/2)+"回合!<br>";}
+				console.log(turns);
+				document.getElementById('msg').scrollTop = document.getElementById('msg').scrollHeight;
+				turns++;
+			}
+			
+			function fight(){
+				if(turns%3 == 2){document.getElementById('s').setAttribute('class', 'c');document.getElementById('n').setAttribute('class', 'd');document.getElementById('h').setAttribute('class', 'c');}
+				else if (turns%3 == 0){document.getElementById('s').setAttribute('class', 'd');document.getElementById('n').setAttribute('class', 'c');document.getElementById('h').setAttribute('class', 'c');}
+				else {document.getElementById('s').setAttribute('class', 'c');document.getElementById('n').setAttribute('class', 'c');document.getElementById('h').setAttribute('class', 'd');}
+				if(turns%3 == 0&&turns!=N_cool){
+					Naruto();
+					if(m_NHP>=N_HP+r_NHP)N_HP += r_NHP;
+					else if(m_NHP!=N_HP)N_HP=m_NHP;
+					N_ATK+=r_NATK;N_DEF += r_NDEF;detail();
+					document.getElementById("n_skill").disabled = true;
+					if(S_cool+8<=turns||S_cool==100000)document.getElementById("s_skill").disabled = false;
+				}
+				
+				else if(turns%3 == 1){
+					Sasuke();
+					if(m_SHP>=S_HP+r_SHP)S_HP += r_SHP;
+					else if(m_SHP!=S_HP)S_HP=m_SHP;
+					S_ATK+=r_SATK;S_DEF += r_SDEF;detail();
+					document.getElementById("s_skill").disabled = true;
+					button.disabled = true;
+					confirm.disabled = false;
+					if(H_HP>0)document.getElementById("msg").innerHTML+="輪到<span class = 'hc'>輝夜</span>了!(請按確定)<br>";
+					if(turns<=4){document.getElementById("msg").innerHTML+="離輝夜行動還有"+((4-turns)/3)+"回合<br>";}
+				}
+				else if(turns%3 == 2&&turns>4){
+					Kaguya();
+					if(N_cool+14<=turns||N_cool==100000)document.getElementById("n_skill").disabled = false;
+					confirm.disabled = true;
+					button.disabled = false;
+					if((S_cool+8<=turns||S_cool==100000)&&N_HP<0){document.getElementById("s_skill").disabled = false;}
+				}
+				if(turns%3 == 2){confirm.disabled = true;
+					button.disabled = false;}
+				if(H_HP<=0){document.getElementById('msg').innerHTML+="<span class = 'nc'>鳴人</span>和<span class = 'sc'>佐助</span>聯手戰勝了<span class = 'hc'>輝夜</span>!";win = 1;turns = 0;confirm.disabled = false;button.disabled = true;document.getElementById('END').setAttribute("class","end2");
+					document.getElementById('END').innerHTML="<img src = '封印.jpg' style='border:10px black solid;width: 576px;height: 350;'><br>&nbsp&nbsp&nbsp<span class = 'end'>恭喜過關</span>"
+					setTimeout("document.getElementById('END').innerHTML=''",3000);setTimeout(Winning,3100);N_cool==100000;S_cool==100000;return;}
+				if(N_HP<=0&&S_HP<=0){document.getElementById('msg').innerHTML+="<span class = 'hc'>輝夜</span>統治世界!<br><span class = 'hc'>回去再練練吧!</span>";win = 1;turns = 0;confirm.disabled = false;button.disabled = true;setTimeout(Winning,100);return;}
+				if(turns%3 == 2&&turns<=N_cool+14&&turns>=N_cool&&N_HP>0){if(((N_cool+14-turns)/3)==0){document.getElementById('msg').innerHTML += "<span class = 'nc'>鳴人</span>可以使用技能了!<br>";
+				document.getElementById("n_skill").disabled = false;}
+				else if(N_HP>0) document.getElementById('msg').innerHTML += "<span class = 'nc'>鳴人</span>技能冷卻還有"+((N_cool+14-turns)/3)+"回合!<br>";}
+				if(turns%3 == 0&&turns<=S_cool+8&&turns>=S_cool){if(((S_cool+8-turns)/3)==0){document.getElementById('msg').innerHTML += "<span class = 'sc'>佐助</span>可以使用技能了!<br>";
+				document.getElementById("s_skill").disabled = false;}
+				else document.getElementById('msg').innerHTML += "<span class = 'sc'>佐助</span>技能冷卻還有"+((S_cool+8-turns)/3)+"回合!<br>";}
+				console.log(turns);
+				document.getElementById('msg').scrollTop = document.getElementById('msg').scrollHeight;
+				turns++;
+				if(turns%3 == 0&&N_HP<=0){turns++;
+					document.getElementById('s').setAttribute('class', 'd');document.getElementById('n').setAttribute('class', 'c');document.getElementById('h').setAttribute('class', 'c');
+				}
+				if(turns%3 == 1&&S_HP<=0){turns++;confirm.disabled = false;button.disabled = true;
+					document.getElementById('s').setAttribute('class', 'c');document.getElementById('n').setAttribute('class', 'c');document.getElementById('h').setAttribute('class', 'd');
+				}
+				if(S_HP<=0)document.getElementById("s_skill").disabled = true;
+				if(N_HP<=0)document.getElementById("n_skill").disabled = true;
+				if(turns%3 == 1)document.getElementById('rollButton').disabled = false;
+			}
+						
+			function Winning(){
+				if(S_HP>0&&N_HP>0&&H_HP<=0&&check == 0){
+					check=1;N_cool==100000;S_cool==100000;
+					while(final!=0&&final!=1)final = window.prompt("是否與對方決一死戰?(0:否, 1:是 )", "0");
+					if(final==0){
+						document.getElementById('END').setAttribute("class","end1");
+						document.getElementById('END').innerHTML="<img src = '歡樂結局.jpg' style='border:10px black solid;width = 420px;height: 334px'><br>&nbsp&nbsp&nbsp<span class = 'end'>歡樂結局</span>"
+					}
+					if(final==1){
+						document.getElementById('END').setAttribute("class","end2");
+						document.getElementById('END').innerHTML="<img src = '佐助VS鳴人.jpg' style='border:10px black solid;'><br>&nbsp&nbsp&nbsp<span class = 'end'>最終決戰</span>"
+						document.getElementById('s').setAttribute('class', 'c');document.getElementById('n').setAttribute('class', 'd');document.getElementById('h').setAttribute('class', 'c');
+						if(N_cool+14<=turns||N_cool==100000)document.getElementById("n_skill").disabled = false;
+						setTimeout("document.getElementById('END').innerHTML=''",5000);
+					}
+				}
+				if(S_HP<=0&&N_HP<=0){
+					document.getElementById('END').setAttribute("class","end2");
+					document.getElementById('END').innerHTML="<img src = '輝夜結局.jpg' style='border:10px black solid;width = 630px;height: 350px'><br>&nbsp&nbsp&nbsp<span class = 'end'>玩家慘敗</span>"
+				}
+				else if(N_HP<=0&&final==1&&H_HP<=0){
+					document.getElementById('END').setAttribute("class","end2");
+					document.getElementById('END').innerHTML="<img src = '佐助戰勝.jpg' style='border:10px black solid;'><br>&nbsp&nbsp&nbsp<span class = 'end'>佐助戰勝鳴人</span>"
+				}
+				else if(S_HP<=0&&final==1&&H_HP<=0){
+					document.getElementById('END').setAttribute("class","end2");
+					document.getElementById('END').innerHTML="<img src = '鳴人戰勝.jpg' style='border:10px black solid;'><br>&nbsp&nbsp&nbsp<span class = 'end'>鳴人戰勝佐助</span>"
+				}
+				else if(S_HP<=0&&H_HP<=0){
+					document.getElementById('END').setAttribute("class","end2");
+					document.getElementById('END').innerHTML="<img src = '鳴人單獨勝利.jpg' style='border:10px black solid;width = 640px;height: 300px'><br>&nbsp&nbsp&nbsp<span class = 'end'>鳴人單獨勝利</span>"
+				}
+				else if(N_HP<=0&&H_HP<=0){
+					document.getElementById('END').setAttribute("class","end3");
+					document.getElementById('END').innerHTML="<img src = '佐助單獨勝利.jpg' style='border:10px black solid;width = 200px;height: 500px'><br>&nbsp&nbsp&nbsp<span class = 'end'>佐助單獨勝利</span>"
+				}
+			}
+			
+			function Naruto2(){
+				initialMap();N[Np] = 0;proN = Np;Np = d1 + d2 + Np;var hit = 0, normal = 0;destroy=0;
+				if(proN>=32&&Np-2*(d1+d2)<32&&N_middle == 1){N_middle = 0;Np = (d1+d2)-(Np-(d1+d2)-32)+3;normal = 1;if((proN>Sp||proN==20)&&(Np>=Sp&&Sp>=4)){S_HP-=damage(N_ATK,S_DEF);hit= 1;}}
+				if(proN<=38&&Np>=32&&N_middle == 1){Np-=2*(d1+d2);N_middle = 1;normal = 1;if((proN>Sp&&Sp>=32)||Np<=Sp)S_HP-=damage(N_ATK,S_DEF);hit = 1;}
+				if(proN<=20&&proN<32&&proN>5&&Np>20&&(d1+d2)%2==0){N_middle = 1;Np = 39-Np+20;normal = 1; if(Np<32){N_middle = 0;Np-=27;if((proN<=Sp&&(Sp<=20||Sp>=32))||(Np>=Sp&&Sp>=4)){S_HP-=damage(N_ATK,S_DEF);hit = 1;}}else if((proN<Sp&&(Sp<=20||Sp>32))&&(Np<=Sp&&Sp>=32)){S_HP-=damage(N_ATK,S_DEF);hit = 1;}}
+				if(proN<32&&Np > 31&&N_middle == 0&&normal==0){Np = Np - 32;N_middle = 0;normal = 1;if((proN<Sp&&Sp<32)||Np>=Sp){S_HP-=damage(N_ATK,S_DEF);hit = 1;}}
+				if((proN<=4||(proN>=26&&proN<32))&&Np>4&&Np<16&&(d1+d2)%2==1){Np+=27;N_middle = 0;normal = 1;if((proN<Sp&&Sp<=4)||(Np>=Sp&&Sp>=32)){S_HP-=damage(N_ATK,S_DEF);hit = 1;}}
+				if(proN<=38&&Np>38&&N_middle == 0){Np-=19;N_middle = 0;normal = 1;if((proN<Sp&&Sp>=32)||(Np>=Sp&&Sp>=20)){S_HP-=damage(N_ATK,S_DEF);hit = 1;}}
+				if(normal == 0){if(((proN<Sp&&Sp<32)||(Sp>=32&&proN<Sp))&&Np>=Sp){N_middle = 0;S_HP-=damage(N_ATK,S_DEF);hit = 1;}}
+				if(Np<0||Np>38)Np=5;
+				N[Np] = 1;
+				document.getElementById('msg').innerHTML += "<span class = 'nc'>鳴人</span>走了&nbsp<span class = 'dice'>"+(d1+d2)+"</span>&nbsp步,走到&nbsp<span class = 'spot'>"+map[Np]+"</span><br>";
+				if(hit==1){document.getElementById('msg').innerHTML += "<span class = 'nc'>鳴人</span>對<span class = 'sc'>佐助</span>造成了&nbsp<span class = 'hurt'>"+damage(N_ATK,S_DEF).toFixed(0)+"&nbsp</span>的傷害<br>";S_ATK=m_SATK;S_DEF=m_SDEF;}
+				N_EQ();
+				if(Np==0&&village[0]==1){recover(1);village[0]=0;document.getElementById('msg').innerHTML += "<span class = 'nc'>鳴人</span>修復了<span class = 'spot'>木葉村!</span><br>";}
+				if(Np==8&&village[1]==1){recover(2);village[1]=0;document.getElementById('msg').innerHTML += "<span class = 'nc'>鳴人</span>修復了<span class = 'spot'>雲隱村!</span><br>";}
+				if(Np==35&&village[2]==1){recover(3);village[2]=0;document.getElementById('msg').innerHTML += "<span class = 'nc'>鳴人</span>修復了<span class = 'spot'>霧隱村!</span><br>";}
+				if(Np==24&&village[3]==1){recover(4);village[3]=0;document.getElementById('msg').innerHTML += "<span class = 'nc'>鳴人</span>修復了<span class = 'spot'>沙隱村!</span><br>";}
+				if(Np==16&&village[4]==1){recover(5);village[4]=0;document.getElementById('msg').innerHTML += "<span class = 'nc'>鳴人</span>修復了<span class = 'spot'>岩隱村!</span><br>";}
+				document.getElementById('msg').scrollTop = document.getElementById('msg').scrollHeight;
+				document.getElementById('confirm').disabled = true;button.disabled = false;
+				setMap();detail();Winning();
+			}
+			
+			function Sasuke2(){
+				initialMap();S[Sp] = 0;proS = Sp;Sp = (d1 + d2) + Sp;var hit = 0, normal = 0,destroy = 0;
+				if(proS>=32&&Sp-2*(d1+d2)<32&&S_middle == 1){S_middle = 0;Sp = (d1+d2)-(Sp-(d1+d2)-32)+3;normal = 1;if((proS>=Np||proS==20)&&(Sp>=Np&&Np>=4)){N_HP-=damage(S_ATK,N_DEF);hit= 1;}}
+				if(proS<=38&&Sp>=32&&S_middle == 1){Sp-=2*(d1+d2);S_middle = 1;normal = 1;if((proS>=Np&&Np>=32)||Sp<=Np)N_HP-=damage(S_ATK,N_DEF);hit = 1;}
+				if(proS<=20&&proS<32&&proS>5&&Sp>20&&(d1+d2)%2==0){S_middle = 1;Sp = 39-Sp+20;normal = 1; if(Sp<32){S_middle = 0;Sp-=27;if((proS<=Np&&(Np<=20||Np>=32))||(Sp>=Np&&Np>=4)){N_HP-=damage(S_ATK,N_DEF);hit = 1;}}else if(proS<=Np&&(Np<=20||Np>=32)&&(Sp<=Np&&Np>=32)){N_HP-=damage(S_ATK,N_DEF);hit = 1;}}
+				if(proS<32&&Sp > 31&&S_middle == 0){Sp = Sp - 32;S_middle = 0;normal = 1;if((proS<=Np&&Np<32)||Sp>=Np){N_HP-=damage(S_ATK,N_DEF);hit = 1;}}
+				if(((proS<=4||(proS>=26&&proS<32)))&&Sp>4&&Sp<16&&(d1+d2)%2==1){Sp+=27;S_middle = 0;normal = 1;if((proS<=Np&&Np<=4)||(Sp>=Np&&Np>=32)){N_HP-=damage(S_ATK,N_DEF);hit = 1;}}
+				if(proS<=38&&Sp>38&&S_middle == 0){Sp-=19;S_middle = 0;normal = 1;if((proS<=Np&&Np>=32)||(Sp>=Np&&Np>=20)){N_HP-=damage(S_ATK,N_DEF);hit = 1;}}
+				if(normal == 0){if(((proS<=Np&&Np<32)||(Np>=32&&proS<=Np))&&Sp>=Np){S_middle = 0;N_HP-=damage(S_ATK,N_DEF);hit = 1;}}
+				if(Sp<0||Sp>38)Sp=5;
+				S[Sp] = 1;document.getElementById('msg').innerHTML += "<span class = 'sc'>佐助</span>走了&nbsp<span class = 'dice'>"+(d1+d2)+"</span>&nbsp步,走到&nbsp<span class = 'spot'>"+map[Sp]+"</span><br>";  
+				if(hit==1){document.getElementById('msg').innerHTML += "<span class = 'sc'>佐助</span>對<span class = 'nc'>鳴人</span>造成了&nbsp<span class = 'hurt'>"+damage(S_ATK,N_DEF).toFixed(0)+"&nbsp</span>的傷害<br>";N_ATK=m_NATK;N_DEF=m_NDEF;}
+				S_EQ();
+				if(Sp==0&&village[0]==1){recover(1);village[0]=0;document.getElementById('msg').innerHTML += "<span class = 'sc'>佐助</span>修復了<span class = 'spot'>木葉村!</span><br>";}
+				if(Sp==8&&village[1]==1){recover(2);village[1]=0;document.getElementById('msg').innerHTML += "<span class = 'sc'>佐助</span>修復了<span class = 'spot'>雲隱村!</span><br>";}
+				if(Sp==35&&village[2]==1){recover(3);village[2]=0;document.getElementById('msg').innerHTML += "<span class = 'sc'>佐助</span>修復了<span class = 'spot'>霧隱村!</span><br>";}
+				if(Sp==24&&village[3]==1){recover(4);village[3]=0;document.getElementById('msg').innerHTML += "<span class = 'sc'>佐助</span>修復了<span class = 'spot'>沙隱村!</span><br>";}
+				if(Sp==16&&village[4]==1){recover(5);village[4]=0;document.getElementById('msg').innerHTML += "<span class = 'sc'>佐助</span>修復了<span class = 'spot'>岩隱村!</span><br>";}
+				document.getElementById('msg').scrollTop = document.getElementById('msg').scrollHeight;
+				document.getElementById('confirm').disabled = true;button.disabled = false;
+				setMap();detail();Winning();
+			}
+			
+			function Sasuke(){
+				initialMap();S[Sp] = 0;proS = Sp;Sp = (d1 + d2) + Sp;var hit = 0, normal = 0,destroy = 0;
+				if(proS>=32&&Sp-2*(d1+d2)<32&&S_middle == 1){S_middle = 0;Sp = (d1+d2)-(Sp-(d1+d2)-32)+3;normal = 1;if((proS>=Hp||proS==20)&&(Sp>=Hp&&Hp>=4)){H_HP-=damage(S_ATK,H_DEF);hit= 1;}}
+				if(proS<=38&&Sp>=32&&S_middle == 1){Sp-=2*(d1+d2);S_middle = 1;normal = 1;if((proS>=Hp&&Hp>=32)||Sp<=Hp)H_HP-=damage(S_ATK,H_DEF);hit = 1;}
+				if(proS<=20&&proS<32&&proS>5&&Sp>20&&(d1+d2)%2==0){S_middle = 1;Sp = 39-Sp+20;normal = 1; if(Sp<32){S_middle = 0;Sp-=27;if((proS<=Hp&&(Hp<=20||Hp>=32))||(Sp>=Hp&&Hp>=4)){H_HP-=damage(S_ATK,H_DEF);hit = 1;}}else if(((proS==20)||(proS<=Hp))&&(Hp<=20||Hp>=32)&&(Sp<=Hp&&Hp>=32)){H_HP-=damage(S_ATK,H_DEF);hit = 1;}}
+				if(proS<32&&Sp > 31&&S_middle == 0){Sp = Sp - 32;S_middle = 0;normal = 1;if((proS<=Hp&&Hp<32)||Sp>=Hp){H_HP-=damage(S_ATK,H_DEF);hit = 1;}}
+				if(((proS<=4||(proS>=26&&proS<32)))&&Sp>4&&Sp<16&&(d1+d2)%2==1){Sp+=27;S_middle = 0;normal = 1;if((proS<=Hp&&Hp<=4)||(Sp>=Hp&&Hp>=32)){H_HP-=damage(S_ATK,H_DEF);hit = 1;}}
+				if(proS<=38&&Sp>38&&S_middle == 0){Sp-=19;S_middle = 0;normal = 1;if((proS<=Hp&&Hp>=32)||(Sp>=Hp&&Hp>=20)){H_HP-=damage(S_ATK,H_DEF);hit = 1;}}
+				if(normal == 0){if(((proS<=Hp&&Hp<32)||(Hp>=32&&proS<=Hp))&&Sp>=Hp){S_middle = 0;H_HP-=damage(S_ATK,H_DEF);hit = 1;}}
+				if(Sp<0||Sp>38)Sp=5;
+				S[Sp] = 1;S_EQ();
+				if(Sp==4&&destiny[0]==0){fobidden(4);destiny[0]=1;destroy=1;}if(Sp==7&&destiny[1]==0){fobidden(7);destiny[1]=1;destroy=1;}if(Sp==11&&destiny[2]==0){fobidden(11);destiny[2]=1;destroy=1;}if(Sp==14&&destiny[3]==0){fobidden(14);destiny[3]=1;destroy=1;}if(Sp==20&&destiny[4]==0){fobidden(20);destiny[4]=1;destroy=1;}
+				if(Sp==23&&destiny[5]==0){fobidden(23);destiny[5]=1;destroy=1;}if(Sp==28&&destiny[6]==0){fobidden(28);destiny[6]=1;destroy=1;}if(Sp==36&&destiny[7]==0){fobidden(36);destiny[7]=1;destroy=1;}
+				document.getElementById('msg').innerHTML += "<span class = 'sc'>佐助</span>走了&nbsp<span class = 'dice'>"+(d1+d2)+"</span>&nbsp步,走到&nbsp<span class = 'spot'>"+map[Sp]+"</span><br>";  
+				if(hit==1){document.getElementById('msg').innerHTML += "<span class = 'sc'>佐助</span>對<span class = 'hc'>輝夜</span>造成了&nbsp<span class = 'hurt'>"+damage(S_ATK,H_DEF).toFixed(0)+"&nbsp</span>的傷害<br>";}
+				if(destroy==1){document.getElementById('msg').innerHTML += "<span class = 'sc'>佐助</span>封印了這裡<br> <span class = 'hc'>輝夜</span>暫時無法從這裡獲得尾獸<br>";}
+				if(Sp==0&&village[0]==1){recover(1);village[0]=0;document.getElementById('msg').innerHTML += "<span class = 'sc'>佐助</span>修復了<span class = 'spot'>木葉村!</span><br>";}
+				if(Sp==8&&village[1]==1){recover(2);village[1]=0;document.getElementById('msg').innerHTML += "<span class = 'sc'>佐助</span>修復了<span class = 'spot'>雲隱村!</span><br>";}
+				if(Sp==35&&village[2]==1){recover(3);village[2]=0;document.getElementById('msg').innerHTML += "<span class = 'sc'>佐助</span>修復了<span class = 'spot'>霧隱村!</span><br>";}
+				if(Sp==24&&village[3]==1){recover(4);village[3]=0;document.getElementById('msg').innerHTML += "<span class = 'sc'>佐助</span>修復了<span class = 'spot'>沙隱村!</span><br>";}
+				if(Sp==16&&village[4]==1){recover(5);village[4]=0;document.getElementById('msg').innerHTML += "<span class = 'sc'>佐助</span>修復了<span class = 'spot'>岩隱村!</span><br>";}
+				document.getElementById('msg').scrollTop = document.getElementById('msg').scrollHeight;
+				setMap();detail();
+			}
+			
+			function Naruto(){
+				initialMap();N[Np] = 0;proN = Np;Np = d1 + d2 + Np;var hit = 0, normal = 0;destroy=0;
+				if(proN>=32&&Np-2*(d1+d2)<32&&N_middle == 1){N_middle = 0;Np = (d1+d2)-(Np-(d1+d2)-32)+3;normal = 1;if((proN>Hp||proN==20)&&(Np>=Hp&&Hp>=4)){H_HP-=damage(N_ATK,H_DEF);hit= 1;}}
+				if(proN<=38&&Np>=32&&N_middle == 1){Np-=2*(d1+d2);N_middle = 1;normal = 1;if((proN>Hp&&Hp>=32)||Np<=Hp)H_HP-=damage(N_ATK,H_DEF);hit = 1;}
+				if(proN<=20&&proN<32&&proN>5&&Np>20&&(d1+d2)%2==0){N_middle = 1;Np = 39-Np+20;normal = 1; if(Np<32){N_middle = 0;Np-=27;if((proN<=Hp&&(Hp<=20||Hp>=32))||(Np>=Hp&&Hp>=4)){H_HP-=damage(N_ATK,H_DEF);hit = 1;}}else if(((proN==20)||(proN<Hp))&&(Hp<=20||Hp>32)&&(Np<=Hp&&Hp>=32)){H_HP-=damage(N_ATK,H_DEF);hit = 1;}}
+				if(proN<32&&Np > 31&&N_middle == 0&&normal==0){Np = Np - 32;N_middle = 0;normal = 1;if((proN<Hp&&Hp<32)||Np>=Hp){H_HP-=damage(N_ATK,H_DEF);hit = 1;}}
+				if((proN<=4||(proN>=26&&proN<32))&&Np>4&&Np<16&&(d1+d2)%2==1){Np+=27;N_middle = 0;normal = 1;if((proN<Hp&&Hp<=4)||(Np>=Hp&&Hp>=32)){H_HP-=damage(N_ATK,H_DEF);hit = 1;}}
+				if(proN<=38&&Np>38&&N_middle == 0){Np-=19;N_middle = 0;normal = 1;if((proN<Hp&&Hp>=32)||(Np>=Hp&&Hp>=20)){H_HP-=damage(N_ATK,H_DEF);hit = 1;}}
+				if(normal == 0){if(((proN<Hp&&Hp<32)||(Hp>=32&&proN<Hp))&&Np>=Hp){N_middle = 0;H_HP-=damage(N_ATK,H_DEF);hit = 1;}}
+				if(Np<0||Np>38)Np=5;
+				N[Np] = 1;N_EQ();
+				if(Np==4&&destiny[0]==0){fobidden(4);destiny[0]=1;destroy=1;}if(Np==7&&destiny[1]==0){fobidden(7);destiny[1]=1;destroy=1;}if(Np==11&&destiny[2]==0){fobidden(11);destiny[2]=1;destroy=1;}if(Np==14&&destiny[3]==0){fobidden(14);destiny[3]=1;destroy=1;}if(Np==20&&destiny[4]==0){fobidden(20);destiny[4]=1;destroy=1;}
+				if(Np==23&&destiny[5]==0){fobidden(23);destiny[5]=1;destroy=1;}if(Np==28&&destiny[6]==0){fobidden(28);destiny[6]=1;destroy=1;}if(Np==36&&destiny[7]==0){fobidden(36);destiny[7]=1;destroy=1;}
+				document.getElementById('msg').innerHTML += "<span class = 'nc'>鳴人</span>走了&nbsp<span class = 'dice'>"+(d1+d2)+"</span>&nbsp步,走到&nbsp<span class = 'spot'>"+map[Np]+"</span><br>";
+				if(hit==1){document.getElementById('msg').innerHTML += "<span class = 'nc'>鳴人</span>對<span class = 'hc'>輝夜</span>造成了&nbsp<span class = 'hurt'>"+damage(N_ATK,H_DEF).toFixed(0)+"&nbsp</span>的傷害<br>";}
+				if(destroy==1){document.getElementById('msg').innerHTML += "<span class = 'nc'>鳴人</span>封印了這裡<br> <span class = 'hc'>輝夜</span>暫時無法從這裡獲得尾獸<br>";}
+				if(Np==0&&village[0]==1){recover(1);village[0]=0;document.getElementById('msg').innerHTML += "<span class = 'nc'>鳴人</span>修復了<span class = 'spot'>木葉村!</span><br>";}
+				if(Np==8&&village[1]==1){recover(2);village[1]=0;document.getElementById('msg').innerHTML += "<span class = 'nc'>鳴人</span>修復了<span class = 'spot'>雲隱村!</span><br>";}
+				if(Np==35&&village[2]==1){recover(3);village[2]=0;document.getElementById('msg').innerHTML += "<span class = 'nc'>鳴人</span>修復了<span class = 'spot'>霧隱村!</span><br>";}
+				if(Np==24&&village[3]==1){recover(4);village[3]=0;document.getElementById('msg').innerHTML += "<span class = 'nc'>鳴人</span>修復了<span class = 'spot'>沙隱村!</span><br>";}
+				if(Np==16&&village[4]==1){recover(5);village[4]=0;document.getElementById('msg').innerHTML += "<span class = 'nc'>鳴人</span>修復了<span class = 'spot'>岩隱村!</span><br>";}
+				document.getElementById('msg').scrollTop = document.getElementById('msg').scrollHeight;
+				setMap();detail();
+			}
+			
+			function Kaguya(){
+				initialMap();H[Hp] = 0;proH = Hp;Hp = d1 + d2 + Hp;var hitN = 0,hitS = 0, normal = 0;destroy = 0;R = 0;
+				if(proH>=32&&Hp-2*(d1+d2)<32&&H_middle == 1){H_middle = 0;Hp = (d1+d2)-(Hp-(d1+d2)-32)+3;normal = 1;
+					if((proH>Np||proH==20)&&(Hp>=Np&&Np>=4)){N_HP-=damage(H_ATK,N_DEF);hitN= 1;}
+					if((proH>Sp||proH==20)&&(Hp>=Sp&&Sp>=4)){S_HP-=damage(H_ATK,S_DEF);hitS= 1;}
+				}
+				if(proH<=38&&Hp>=32&&H_middle == 1){Hp-=2*(d1+d2);H_middle = 1;normal = 1;
+					if((proH>Np&&Np>=32)||Hp<=Np){N_HP-=damage(H_ATK,N_DEF);hitN= 1;}
+					if((proH>Sp&&Sp>=32)||Hp<=Sp){S_HP-=damage(H_ATK,S_DEF);hitS= 1;}
+				}
+				if(proH<=20&&proH<32&&proH>5&&Hp>20&&(d1+d2)%2==0){H_middle = 1;Hp = 39-Hp+20;normal = 1;
+					if(Hp<32){H_middle = 0;Hp-=27;if((proH<=Np&&(Np<=20||Np>=32))||(Hp>=Np&&Np>=4)){N_HP-=damage(H_ATK,N_DEF);hit = 1;}Hp+=27;}else if(((proH==20)||(proH<Np))&&(Np<=20||Np>32)&&((Hp>=Sp&&Sp<=20)||((Hp<=Np&&Np>=32)))){N_HP-=damage(H_ATK,N_DEF);hitN = 1;}
+					if(Hp<32){H_middle = 0;Hp-=27;if((proH<=Sp&&(Sp<=20||Sp>=32))||(Hp>=Sp&&Sp>=4)){S_HP-=damage(H_ATK,S_DEF);hit = 1;}}else if(((proH==20)||(proH<Sp))&&(Sp<=20||Sp>32)&&((Hp>=Sp&&Sp<=20)||((Hp<=Sp&&Sp>=32)))){S_HP-=damage(H_ATK,S_DEF);hitS = 1;}
+				}
+				if(proH<32&&Hp > 31&&H_middle == 0&&normal==0){Hp = Hp - 32;H_middle = 0;normal = 1;
+					if((proH<Np&&Np<32)||Hp>=Np){N_HP-=damage(H_ATK,N_DEF);hitN = 1;}
+					if((proH<Sp&&Sp<32)||Hp>=Sp){S_HP-=damage(H_ATK,S_DEF);hitS = 1;}
+				}
+				if((proH<=4||(proH>=26&&proH<32))&&Hp>4&&Hp<16&&(d1+d2)%2==1){Hp+=27;H_middle = 0;normal = 1;
+					if((proH<Np&&Np<=4)||(Hp>=Np&&Np>=32)){N_HP-=damage(H_ATK,N_DEF);hitN = 1;}
+					if((proH<Sp&&Sp<=4)||(Hp>=Sp&&Sp>=32)){S_HP-=damage(H_ATK,S_DEF);hitS = 1;}
+				}
+				if(proH<=38&&Hp>38&&H_middle == 0){Hp-=19;H_middle = 0;normal = 1;
+					if((proH<Np&&Np>=32)||(Hp>=Np&&Np>=20)){N_HP-=damage(H_ATK,N_DEF);hitN = 1;}
+					if((proH<Sp&&Sp>=32)||(Hp>=Sp&&Sp>=20)){S_HP-=damage(H_ATK,S_DEF);hitS = 1;}
+				}
+				if(normal == 0){
+					H_middle = 0;
+					if(((proH<Np&&Np<32)||(Np>=32&&proH<Np))&&Hp>=Np){N_HP-=damage(H_ATK,N_DEF);hitN = 1;}
+					if(((proH<Sp&&Sp<32)||(Sp>=32&&proH<Sp))&&Hp>=Sp){S_HP-=damage(H_ATK,S_DEF);hitS = 1;}
+				}
+				if(Hp<0||Hp>38)Hp=5;
+				H[Hp] = 1;
+				if(Hp==0&&village[0]==0){village[0]=1;destroy=1;}if(Hp==8&&village[1]==0){village[1]=1;destroy=1;}if(Hp==35&&village[2]==0){village[2]=1;destroy=1;}if(Hp==24&&village[3]==0){village[3]=1;destroy=1;}if(Hp==16&&village[4]==0){village[4]=1;destroy=1;}
+				document.getElementById('msg').innerHTML += "<span class = 'hc'>輝夜</span>走了&nbsp<span class = 'dice'>"+(d1+d2)+"</span>&nbsp步,走到&nbsp<span class = 'spot'>"+map[Hp]+"</span><br>";
+				if(hitN==1&&N_HP>0){document.getElementById('msg').innerHTML += "<span class = 'hc'>輝夜</span>對<span class = 'nc'>鳴人</span>造成了&nbsp<span class = 'hurt'>"+damage(H_ATK,N_DEF).toFixed(0)+"&nbsp</span>的傷害<br>";
+				N_ATK=m_NATK;N_DEF=m_NDEF;}
+				if(hitS==1&&S_HP>0){document.getElementById('msg').innerHTML += "<span class = 'hc'>輝夜</span>對<span class = 'sc'>佐助</span>造成了&nbsp<span class = 'hurt'>"+damage(H_ATK,S_DEF).toFixed(0)+"&nbsp</span>的傷害<br>";
+				S_ATK=m_SATK;S_DEF=m_SDEF;}H_EQ();
+				if(Hp==4&&destiny[0]==1){release(4);destiny[0]=0;R=1;}if(Hp==7&&destiny[1]==1){release(7);destiny[1]=0;R=1;}if(Hp==11&&destiny[2]==1){release(11);destiny[2]=0;R=1;}if(Hp==14&&destiny[3]==1){release(14);destiny[3]=0;R=1;}if(Hp==20&&destiny[4]==1){release(20);destiny[4]=0;R=1;}
+				if(Hp==23&&destiny[5]==1){release(23);destiny[5]=0;R=1;}if(Hp==28&&destiny[6]==1){release(28);destiny[6]=0;R=1;}if(Hp==36&&destiny[7]==1){release(36);destiny[7]=0;R=1;}
+				if(R==1){document.getElementById('msg').innerHTML += "<span class = 'hc'>輝夜</span>解開封印了<br>"}
+				if(destroy==1&&Hp==0){document.getElementById('msg').innerHTML += "<span class = 'hc'>輝夜</span>破壞了<span class = 'spot'>木葉村!</span><br>";break5(1);}
+				if(destroy==1&&Hp==8){document.getElementById('msg').innerHTML += "<span class = 'hc'>輝夜</span>破壞了<span class = 'spot'>雲隱村!</span><br>";break5(2);}
+				if(destroy==1&&Hp==35){document.getElementById('msg').innerHTML += "<span class = 'hc'>輝夜</span>破壞了<span class = 'spot'>霧隱村!</span><br>";break5(3);}
+				if(destroy==1&&Hp==24){document.getElementById('msg').innerHTML += "<span class = 'hc'>輝夜</span>破壞了<span class = 'spot'>沙隱村!</span><br>";break5(4);}
+				if(destroy==1&&Hp==16){document.getElementById('msg').innerHTML += "<span class = 'hc'>輝夜</span>破壞了<span class = 'spot'>岩隱村!</span><br>";break5(5);}
+				document.getElementById('msg').scrollTop = document.getElementById('msg').scrollHeight;
+				setMap();detail();
+			}
+			
+			function animate_dice(){
+				for(var i = 0; i < 9;i++){ 
+					setTimeout('die1Image.setAttribute( "src", "die" + (Math.floor( 1 + Math.random() * 6 )) + ".png" )',i*50);
+					setTimeout('die2Image.setAttribute( "src", "die" + (Math.floor( 1 + Math.random() * 6 )) + ".png" )',i*50);
+				}
+			}
+			
+			function rollDice(){
+				if(win == 0){
+					if(turns%3 == 0&&N_HP<=0){turns++;
+						document.getElementById('s').setAttribute('class', 'd');document.getElementById('n').setAttribute('class', 'c');document.getElementById('h').setAttribute('class', 'c');
+					}
+					if(turns%3 == 1&&S_HP<=0){turns++;confirm.disabled = false;button.disabled = true;
+						document.getElementById('s').setAttribute('class', 'c');document.getElementById('n').setAttribute('class', 'c');document.getElementById('h').setAttribute('class', 'd');
+					}
+					animate_dice();
+					setTimeout(setImage, 500);
+					setTimeout(fight,600);
+					document.getElementById('rollButton').disabled = true;
+				}
+				else if(win == 1&&final==1){
+					animate_dice();
+					setTimeout(setImage, 500);
+					setTimeout(fight2,600);
+				}
+			}
+			
+			function setImage( dieImg ){
+				var dieValue = Math.floor( 1 + Math.random() * 6 );
+				var dieValue2 = Math.floor( 1 + Math.random() * 6 );
+				die1Image.setAttribute( "src", "die" + dieValue + ".png" );
+				die2Image.setAttribute( "src", "die" + dieValue2 + ".png" );
+				d1 = dieValue;d2 = dieValue2;
+			}
+			
+			function n_skill(){
+				N_skill = window.prompt("鳴人可以使用飛雷神飛到各個村.請輸入1到5代表的村.(0: 取消, 1:木葉村, 2:雲影村, 3:霧隱村, 4:沙隱村, 5:岩隱村","1");
+				while(N_skill<1||N_skill>5){
+					if(N_skill==0)return;
+					alert("輸入錯誤!請重新輸入!");
+					N_skill = window.prompt("鳴人可以使用飛雷神飛到各個村.請輸入1到5代表的村.(1:木葉村, 2:雲影村, 3:霧隱村, 4:沙隱村, 5:岩隱村","1");
+				}
+				initialMap();
+				N[Np] = 0;N_cool = turns;
+				if(N_skill == 1){Np = 0;proN = 0;document.getElementById('msg').innerHTML += "<span class = 'nc'>鳴人</span>使用飛雷神移動到&nbsp<span class = 'spot'>木葉村</span><br>";}
+				if(N_skill == 2){Np = 8;proN = 8;document.getElementById('msg').innerHTML += "<span class = 'nc'>鳴人</span>使用飛雷神移動到&nbsp<span class = 'spot'>雲影村</span><br>";}
+				if(N_skill == 3){Np = 35;proN = 35;document.getElementById('msg').innerHTML += "<span class = 'nc'>鳴人</span>使用飛雷神移動到&nbsp<span class = 'spot'>霧隱村</span><br>";}
+				if(N_skill == 4){Np = 24;proN = 24;document.getElementById('msg').innerHTML += "<span class = 'nc'>鳴人</span>使用飛雷神移動到&nbsp<span class = 'spot'>沙隱村</span><br>";}
+				if(N_skill == 5){Np = 16;proN = 16;document.getElementById('msg').innerHTML += "<span class = 'nc'>鳴人</span>使用飛雷神移動到&nbsp<span class = 'spot'>岩隱村</span><br>";}
+				if(Np==0&&village[0]==1){recover(1);document.getElementById('msg').innerHTML += "<span class = 'nc'>鳴人</span>修復了<span class = 'spot'>木葉村!</span><br>";}
+				if(Np==8&&village[1]==1){recover(2);document.getElementById('msg').innerHTML += "<span class = 'nc'>鳴人</span>修復了<span class = 'spot'>雲隱村!</span><br>";}
+				if(Np==35&&village[2]==1){recover(3);document.getElementById('msg').innerHTML += "<span class = 'nc'>鳴人</span>修復了<span class = 'spot'>霧隱村!</span><br>";}
+				if(Np==24&&village[3]==1){recover(4);document.getElementById('msg').innerHTML += "<span class = 'nc'>鳴人</span>修復了<span class = 'spot'>沙隱村!</span><br>";}
+				if(Np==16&&village[4]==1){recover(5);document.getElementById('msg').innerHTML += "<span class = 'nc'>鳴人</span>修復了<span class = 'spot'>岩隱村!</span><br>";}
+				N[Np] = 1;
+				setMap();
+				document.getElementById("n_skill").disabled = true;
+				N_EQ();
+				document.getElementById('msg').scrollTop = document.getElementById('msg').scrollHeight;
+				if(((S_cool+8-turns)/3)==0||S_cool == 100000){document.getElementById("s_skill").disabled = false;}
+				if(Np==Sp&&final==1){
+					S_HP-=damage(N_ATK,S_DEF);
+					document.getElementById('msg').innerHTML += "<span class = 'nc'>鳴人</span>對<span class = 'sc'>佐助</span>造成了&nbsp<span class = 'hurt'>"+damage(N_ATK,S_DEF)+"&nbsp</span>的傷害<br>";
+					document.getElementById('msg').scrollTop = document.getElementById('msg').scrollHeight;
+				 	detail();
+				}
+				if(Np==Hp&&final==2){
+					H_HP-=damage(N_ATK,H_DEF);
+					document.getElementById('msg').innerHTML += "<span class = 'nc'>鳴人</span>對<span class = 'hc'>輝夜</span>造成了&nbsp<span class = 'hurt'>"+damage(N_ATK,H_DEF)+"&nbsp</span>的傷害<br>";
+					document.getElementById('msg').scrollTop = document.getElementById('msg').scrollHeight;
+				 	detail();document.getElementById("rollButton").disabled = true;
+				}
+				turns++;
+				document.getElementById('s').setAttribute('class', 'd');
+				document.getElementById('n').setAttribute('class', 'c');
+				document.getElementById('h').setAttribute('class', 'c');
+				if((S_cool+5<=turns||S_cool==100000)&&final==1)document.getElementById("s_skill").disabled = false;
+				if((S_cool+8<=turns||S_cool==100000)&&final==2)document.getElementById("s_skill").disabled = false;
+				if(S_HP<=0){button.disabled = true;document.getElementById('confirm').disabled = false;document.getElementById("s_skill").disabled = true;}
+				else {button.disabled = false;document.getElementById('confirm').disabled = true;}
+				Winning();
+			}
+			
+			function s_skill(){
+				var choose = 0;
+				choose = window.prompt("佐助可以使用兩個技能,請從中挑一個.(0: 取消, 1: 控制骰子點數, 2: 跟鳴人或佐助互換)","1");
+				while(choose<1||choose>2){
+					if(choose == 0)return;
+					alert("輸入錯誤!請重新輸入!");
+					choose = window.prompt("佐助可以使用兩個技能,請從中挑一個.(0: 取消, 1: 控制骰子點數, 2: 跟鳴人或輝夜互換位置)","1");
+				}
+				if(choose==1){
+					S_skill = window.prompt("佐助可以控制骰子.請輸入1到12!(0: 取消)","1");
+					while(S_skill<1||S_skill>12){
+						if(S_skill == 0)return;
+						alert("輸入錯誤!請重新輸入!");
+						S_skill = window.prompt("佐助可以控制骰子.請輸入1到12!(0: 取消)","1");
+					}
+					var S_skill2 = S_skill-6;
+					if(S_skill<=6){die2Image.setAttribute( "src", "blank.png" );die1Image.setAttribute( "src", "die" + S_skill + ".png" );}
+					else {die1Image.setAttribute( "src", "die6.png" );die2Image.setAttribute( "src", "die" + S_skill2 + ".png" );}
+					d1=parseInt(S_skill);d2 = 0;
+					document.getElementById("s_skill").disabled = true;
+					if(final==1){Sasuke2();}
+					else {Sasuke();}
+				}
+				else if(choose == 2){
+					S_skill = window.prompt("佐助可以跟鳴人或輝夜換位置!(0: 取消, 1: 鳴人,2: 輝夜)","1");
+					while(S_skill<1||S_skill>12){
+						if(S_skill == 0)return;
+						alert("輸入錯誤!請重新輸入!");
+						S_skill = window.prompt("佐助可以跟鳴人或輝夜換位置!(0: 取消, 1: 鳴人,2: 輝夜)","1");
+					}
+					document.getElementById("s_skill").disabled = true;
+					if(S_skill == 1){var temp = Sp;Sp=Np;Np=temp;document.getElementById('msg').innerHTML += "<span class = 'sc'>佐助</span>跟<span class = 'nc'>鳴人</span>互換位置<br>";temp = S_middle;S_middle=N_middle;N_middle=temp;}
+					if(S_skill == 2){var temp = Sp;Sp=Hp;Hp=temp;document.getElementById('msg').innerHTML += "<span class = 'sc'>佐助</span>跟<span class = 'hc'>輝夜</span>互換位置<br>";temp = S_middle;S_middle=H_middle;H_middle=temp;}
+					initialMap();
+					setMap();
+					S_EQ();
+					if(Sp==Hp&&final==2){
+						H_HP-=damage(S_ATK,H_DEF);
+						document.getElementById('msg').innerHTML += "<span class = 'sc'>佐助</span>對<span class = 'hc'>輝夜</span>造成了&nbsp<span class = 'hurt'>"+damage(S_ATK,H_DEF).toFixed(0)+"&nbsp</span>的傷害<br>";
+						document.getElementById('msg').scrollTop = document.getElementById('msg').scrollHeight;
+						detail();
+					}
+					var destroy = 0;
+					if(Sp==4&&destiny[0]==0){fobidden(4);destiny[0]=1;destroy=1;}if(Sp==7&&destiny[1]==0){fobidden(7);destiny[1]=1;destroy=1;}if(Sp==11&&destiny[2]==0){fobidden(11);destiny[2]=1;destroy=1;}if(Sp==14&&destiny[3]==0){fobidden(14);destiny[3]=1;destroy=1;}if(Sp==20&&destiny[4]==0){fobidden(20);destiny[4]=1;destroy=1;}if(Sp==23&&destiny[5]==0){fobidden(23);destiny[5]=1;destroy=1;}if(Sp==28&&destiny[6]==0){fobidden(28);destiny[6]=1;destroy=1;}if(Sp==36&&destiny[7]==0){fobidden(36);destiny[7]=1;destroy=1;}
+					if(destroy==1){document.getElementById('msg').innerHTML += "<span class = 'sc'>佐助</span>封印了這裡<br> <span class = 'hc'>輝夜</span>暫時無法從這裡獲得尾獸<br>";}
+					if(Sp==0&&village[0]==1){recover(1);village[0]=0;document.getElementById('msg').innerHTML += "<span class = 'sc'>佐助</span>修復了<span class = 'spot'>木葉村!</span><br>";}
+					if(Sp==8&&village[1]==1){recover(2);village[1]=0;document.getElementById('msg').innerHTML += "<span class = 'sc'>佐助</span>修復了<span class = 'spot'>雲隱村!</span><br>";}
+					if(Sp==35&&village[2]==1){recover(3);village[2]=0;document.getElementById('msg').innerHTML += "<span class = 'sc'>佐助</span>修復了<span class = 'spot'>霧隱村!</span><br>";}
+					if(Sp==24&&village[3]==1){recover(4);village[3]=0;document.getElementById('msg').innerHTML += "<span class = 'sc'>佐助</span>修復了<span class = 'spot'>沙隱村!</span><br>";}
+					if(Sp==16&&village[4]==1){recover(5);village[4]=0;document.getElementById('msg').innerHTML += "<span class = 'sc'>佐助</span>修復了<span class = 'spot'>岩隱村!</span><br>";}
+				}
+				S_cool = turns;
+				if(final==1){					
+					document.getElementById('s').setAttribute('class', 'c');
+					document.getElementById('n').setAttribute('class', 'd');
+					document.getElementById('h').setAttribute('class', 'c');
+					}
+				else {
+					document.getElementById('s').setAttribute('class', 'c');
+					document.getElementById('n').setAttribute('class', 'c');
+					document.getElementById('h').setAttribute('class', 'd');
+				}
+				if((N_cool+9<=turns||N_cool==100000)&&N_HP>0)document.getElementById("n_skill").disabled = false;
+				if((N_cool+9<=turns||N_cool==100000)&&H_HP>0)document.getElementById("n_skill").disabled = true;
+				if(H_HP>0){button.disabled = true;document.getElementById('confirm').disabled = false;}
+				else {button.disabled = false;document.getElementById('confirm').disabled = true;}
+				turns++;
+				document.getElementById('msg').scrollTop = document.getElementById('msg').scrollHeight;
+			}
+			
+			window.addEventListener( "load", start, false );
+		</script>
+	</head>
+	<body>
+		<table border = "1" class = 'a'>
+			<caption><font class = 'a'>第四次忍界大戰<br></font></caption>
+			<tbody><tr style = 'height :11%'>
+				<td background="木葉村.jpg" style = "background-size: 100% 100%;"id = 't0'><div id = 'a0'><img src = '鳴人.png' class = 's'><img src = '佐助.png' class = 's'><img src = '輝夜.png' class = 's'></div></td>
+				<td background="木葉森林.jpg" style = "background-size: 100% 100%;"id = 't1'><div id = 'a1'></div></td>
+				<td background="木葉訓練場.jpg" style = "background-size: 100% 100%;"id = 't2'><div id = 'a2'></div></td>
+				<td background="木葉森林深處.jpg" style = "background-size: 100% 100%;"id = 't3'><div id = 'a3'></div></td>
+				<td background="命運.png" style = "background-size: 100% 100%;"id = 't4'><div id = 'a4'></div></td>
+				<td background="草波海岸.jpg" style = "background-size: 100% 100%;"id = 't5'><div id = 'a5'></div></td>
+				<td background="島龜.jpg" style = "background-size: 100% 100%;"id = 't6'><div id = 'a6'></div></td>
+				<td background="命運.png" style = "background-size: 100% 100%;"id = 't7'><div id = 'a7'></div></td>
+				<td background="雲隱村.jpg" style = "background-size: 100% 100%;"id = 't8'><div id = 'a8'></div></td>
+			</tr>
+			<tr style = 'height :11%'>
+				<td background="木葉森林.jpg" style = "background-size: 100% 100%;"id = 't31'><div id = 'a31'></div></td>
+				<td rowspan = '7' colspan = '3' style = 'background-color: gray';>
+					<table class = 'b' style = 'background-color: black';>
+						<tbody><tr style = 'height :10%'><th colspan = '10' style = 'background-color: #4FF0DF;'>角色資訊</th></tr>
+						<tr style = 'height :10%; background-color: yellow';><th colspan = '10'><font>鳴人</font><img src = '鳴人.png' class = 's2'></th></tr>
+						<tr style = 'height :10%; background-color: yellow';>
+						<th style = 'width :33%' id = 'n_HP'>血量: 123</th><th style = 'width :34%' id = 'n_DEF'>防禦: 25</th><th style = 'width :33%' id = 'n_ATK'>攻擊: 200</th>
+						<tr style = 'height :10%; background-color: yellow;' >
+						<th colspan = '10' id = 'n_equipment' style = 'text-align: left;'>&nbsp;&nbsp;&nbsp;裝備 : </th>
+						</tr>
+						<tr><th style = 'height :10%; background-color: #9566F2;'  colspan = '10'><font>佐助</font> <img src = '佐助.png' class = 's2'></th></tr>
+						<tr style = 'height :10%; background-color: #9566F2;'>
+						<th style = 'width :33%' id = 's_HP'>血量: 123</th><th style = 'width :34%' id = 's_DEF'>防禦: 25</th><th style = 'width :33%' id = 's_ATK'>攻擊: 200</th>
+						<tr style = 'height :10% ; background-color: #9566F2;'>
+						<th colspan = '10' id = 's_equipment' style = 'text-align: left;'>&nbsp;&nbsp;&nbsp;裝備 : </th>
+						</tr>
+						<tr><th style = 'height :10%; background-color: #ED4B31;'  colspan = '10'><font>大筒木輝夜</font><img src = '輝夜.png' class = 's2'></th></tr>
+						<tr style = 'height :10%; background-color: #ED4B31;'>
+						<th style = 'width :33%' id = 'h_HP'>血量: 123</th><th style = 'width :34%' id = 'h_DEF'>防禦: 25</th><th style = 'width :33%' id = 'h_ATK'>攻擊: 200</th>
+						<tr style = 'height :10%; background-color: #ED4B31;'>
+						<th colspan = '10' id = 'h_equipment' style = 'text-align: left;'>&nbsp;&nbsp;&nbsp;裝備 : </th>
+						</tr></tbody>
+				</table>
+				</td>
+				<td background="木葉懸崖.jpg" style = "background-size: 100% 100%;"id = 't32'><div id = 'a32'></div></td>
+				<td rowspan = '7' colspan = '3' style = "vertical-align:top; background-color:black;" >
+					<div class = 'b' style = "background-color:white;">
+						<br><br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+						<img id = "die1" src = "die6.png" alt = "blank image"><br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+						<img id = "die2" src = "die6.png" alt = "blank image">
+					</div>
+					<input id = "play" type = "button" onclick="restart()" value = "restart" style = 'float: left; margin-top: 10px; margin-left: 5px;height:40px; width: 70px;'>
+					<input id = "rollButton" type = "button" value = "Roll Dice" style = 'float: left; margin-top: 10px; margin-left: 5px; height:30px; width: 70px;'>
+					<input id = "confirm" type = "button" value = "confirm" style = 'float: left; margin-top: 10px; margin-left: 5px; height:30px; width: 70px;'>
+					<div id = 'n' class = 'd' style = 'background-color: yellow;border-color: yellow;'>鳴人</div>
+					<div id = 's' class = 'c' style = 'background-color: #9566F2;border-color: #9566F2;'>佐助</div>
+					<div id = 'h' class = 'c' style = 'background-color: #ED4B31;border-color: #ED4B31;'>大筒木輝夜</div>
+					<input id = "h_skill" onclick="h_skill()" type = "button" value = "skill" style = 'float: right; margin-bottom: 10px; margin-right: 12px;width: 29%;height:18px;border:2px black double;background-color:#ED4B31;'>
+					<input id = "s_skill" onclick="s_skill()" type = "button" value = "skill" style = 'float: right; margin-bottom: 10px; margin-right: 10px;width: 29%;height:18px;border:2px black double;background-color:#9566F2;'>
+					<input id = "n_skill" onclick="n_skill()"  type = "button"value = "skill" style = 'float: right; margin-bottom: 10px; margin-right: 10px;width: 29%;height:18px;border:2px black double;background-color:yellow;'>
+					<div class = 'a' style = "background-color:#c0c0c0;" id = 'msg' >這裡是第四次忍界大戰(一到兩人遊玩)<br>玩家扮演<span class = 'nc'>鳴人</span>和<span class = 'sc'>佐助</span><br>並想辦法打贏<span class = 'hc'>輝夜</span><br><span class = 'hurt'>祝你們好運!</span><br>規則: <br>&nbsp&nbsp&nbsp&nbsp1)當腳色經過敵對角色時, 可以<br>&nbsp&nbsp&nbsp&nbsp對對方造成傷害<br>&nbsp&nbsp&nbsp&nbsp2)當玩家移動到各個忍者村時, <br>&nbsp&nbsp&nbsp&nbsp可以獲得裝備<br>&nbsp&nbsp&nbsp&nbsp3)當輝夜移動到命運時, 可以獲得<br>&nbsp&nbsp&nbsp&nbsp尾獸<br>&nbsp&nbsp&nbsp&nbsp4)鳴人和佐助可以使用技能, 但有<br>&nbsp&nbsp&nbsp&nbsp冷卻時間<br></div>
+				</td>
+				<td background="雲雷峽.jpg" style = "background-size: 100% 100%;"id = 't9'><div id = 'a9'></div></td></tr>
+			<tr style = 'height :11%'>
+				<td background="火之國森林.jpg" style = "background-size: 100% 100%;"id = 't30'><div id = 'a30'></div></td>
+				<td background="死亡森林.jpg" style = "background-size: 100% 100%;"id = 't33'><div id = 'a33'></div></td>
+				<td background="波之國.jpg" style = "background-size: 100% 100%;"id = 't10'><div id = 'a10'></div></td>
+			</tr>
+			<tr style = 'height :11%'>
+				<td background="川之國.jpg" style = "background-size: 100% 100%;"id = 't29'><div id = 'a29'></div></td>
+				<td background="死亡森林深處.jpg" style = "background-size: 100% 100%;"id = 't34'><div id = 'a34'></div></td>
+				<td background="命運.png" style = "background-size: 100% 100%;"id = 't11'><div id = 'a11'></div></td>
+			</tr>
+			<tr style = 'height :11%'>
+				<td background="命運.png" style = "background-size: 100% 100%;"id = 't28'><div id = 'a28'></div></td>
+				<td background="霧隱村.jpg" style = "background-size: 100% 100%;"id = 't35'><div id = 'a35'></div></td>
+				<td background="鐵之國雪原.jpg" style = "background-size: 100% 100%;"id = 't12'><div id = 'a12'></div></td>
+			</tr>
+			<tr style = 'height :11%'>
+				<td background="熱沙荒野.jpg" style = "background-size: 100% 100%;"id = 't27'><div id = 'a27'></div></td>
+				<td background="命運.png" style = "background-size: 100% 100%;"id = 't36'><div id = 'a36'></div></td>
+				<td background="鐵之國城門.jpg" style = "background-size: 100% 100%;"id = 't13'><div id = 'a13'></div></td>
+			</tr>
+			<tr style = 'height :11%'>
+				<td background="風之國沙漠.jpg" style = "background-size: 100% 100%;"id = 't26'><div id = 'a26'></div></td>
+				<td background="大蛇丸基地外圍.jpg" style = "background-size: 100% 100%;"id = 't37'><div id = 'a37'></div></td>
+				<td background="命運.png" style = "background-size: 100% 100%;"id = 't14'><div id = 'a14'></div></td>
+			</tr>
+			<tr style = 'height :11%'>
+				<td background="一線天.jpg" style = "background-size: 100% 100%;"id = 't25'><div id = 'a25'></div></td>
+				<td background="天地橋.jpg" style = "background-size: 100% 100%;"id = 't38'><div id = 'a38'></div></td>
+				<td background="五影會談現場.jpg" style = "background-size: 100% 100%;"id = 't15'><div id = 'a15'></div></td>
+			</tr>
+			<tr style = 'height :11%'>
+				<td background="沙隱村.jpg" style = "background-size: 100% 100%;"id = 't24'><div id = 'a24'></div></td>
+				<td background="命運.png" style = "background-size: 100% 100%;"id = 't23'><div id = 'a23'></div></td>
+				<td background="風之國沙漠.jpg" style = "background-size: 100% 100%;"id = 't22'><div id = 'a22'></div></td>
+				<td background="寺橋.jpg" style = "background-size: 100% 100%;"id = 't21'><div id = 'a21'></div></td>
+				<td background="命運.png" style = "background-size: 100% 100%;"id = 't20'><div id = 'a20'></div></td>
+				<td background="短冊街.jpg" style = "background-size: 100% 100%;"id = 't19'><div id = 'a19'></div></td>
+				<td background="枯木之森.jpg" style = "background-size: 100% 100%;"id = 't18'><div id = 'a18'></div></td>
+				<td background="戰場忍刀七人眾.jpg" style = "background-size: 100% 100%;"id = 't17'><div id = 'a17'></div></td>
+				<td background="岩隱村.jpg" style = "background-size: 100% 100%;"id = 't16'><div id = 'a16'></div></td>
+			</tr>
+			</tr></tbody>
+		<div id = 'END'></div>
+	</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
