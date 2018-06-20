@@ -141,7 +141,7 @@
 			var tail = T.split(' ');
 			var N_equipment = new Array(6);var S_equipment = new Array(6);var H_equipment = 0;
 			var village = new Array(5);
-			var destiny = new Array(8);var win = 0;var final = 2;max_S = 0;max_N=0;
+			var destiny = new Array(8);var win = 0;var final = 2;max_S = 0;max_N=0;var N_die = 0;var S_die=0;var H_die=0;
 			var confirm;var check = 0;
 			
 			function start(){
@@ -210,7 +210,7 @@
 				win = 0;final = 2;check = 0;turns = 0;times = 0;H_equipment = 0;
 				if(turns == 0)document.getElementById('s_skill').disabled = true;
 				document.getElementById('n_skill').disabled = false;
-				confirm = document.getElementById('confirm');
+				confirm = document.getElementById('confirm');N_die = 0;S_die=0;H_die=0;
 				confirm.disabled = true;
 				button.disabled = false;
 				document.getElementById('n_equipment').innerHTML = '裝備: ';
@@ -656,7 +656,8 @@
 				if(Sp==4&&destiny[0]==0){fobidden(4);destiny[0]=1;destroy=1;}if(Sp==7&&destiny[1]==0){fobidden(7);destiny[1]=1;destroy=1;}if(Sp==11&&destiny[2]==0){fobidden(11);destiny[2]=1;destroy=1;}if(Sp==14&&destiny[3]==0){fobidden(14);destiny[3]=1;destroy=1;}if(Sp==20&&destiny[4]==0){fobidden(20);destiny[4]=1;destroy=1;}
 				if(Sp==23&&destiny[5]==0){fobidden(23);destiny[5]=1;destroy=1;}if(Sp==28&&destiny[6]==0){fobidden(28);destiny[6]=1;destroy=1;}if(Sp==36&&destiny[7]==0){fobidden(36);destiny[7]=1;destroy=1;}
 				document.getElementById('msg').innerHTML += "<span class = 'sc'>佐助</span>走了&nbsp<span class = 'dice'>"+(d1+d2)+"</span>&nbsp步,走到&nbsp<span class = 'spot'>"+map[Sp]+"</span><br>";  
-				if(hit==1){document.getElementById('msg').innerHTML += "<span class = 'sc'>佐助</span>對<span class = 'hc'>輝夜</span>造成了&nbsp<span class = 'hurt'>"+damage(S_ATK,H_DEF).toFixed(0)+"&nbsp</span>的傷害<br>";}
+				if(hit==1&&H_die==0){document.getElementById('msg').innerHTML += "<span class = 'sc'>佐助</span>對<span class = 'hc'>輝夜</span>造成了&nbsp<span class = 'hurt'>"+damage(S_ATK,H_DEF).toFixed(0)+"&nbsp</span>的傷害<br>";}
+				if(H_HP<=0){H_die=1;document.getElementById('msg').innerHTML += "<span class = 'hc'>輝夜</span>陣亡了";}
 				if(destroy==1){document.getElementById('msg').innerHTML += "<span class = 'sc'>佐助</span>封印了這裡<br> <span class = 'hc'>輝夜</span>暫時無法從這裡獲得尾獸<br>";}
 				if(Sp==0&&village[0]==1){recover(1);village[0]=0;document.getElementById('msg').innerHTML += "<span class = 'sc'>佐助</span>修復了<span class = 'spot'>木葉村!</span><br>";}
 				if(Sp==8&&village[1]==1){recover(2);village[1]=0;document.getElementById('msg').innerHTML += "<span class = 'sc'>佐助</span>修復了<span class = 'spot'>雲隱村!</span><br>";}
@@ -681,7 +682,8 @@
 				if(Np==4&&destiny[0]==0){fobidden(4);destiny[0]=1;destroy=1;}if(Np==7&&destiny[1]==0){fobidden(7);destiny[1]=1;destroy=1;}if(Np==11&&destiny[2]==0){fobidden(11);destiny[2]=1;destroy=1;}if(Np==14&&destiny[3]==0){fobidden(14);destiny[3]=1;destroy=1;}if(Np==20&&destiny[4]==0){fobidden(20);destiny[4]=1;destroy=1;}
 				if(Np==23&&destiny[5]==0){fobidden(23);destiny[5]=1;destroy=1;}if(Np==28&&destiny[6]==0){fobidden(28);destiny[6]=1;destroy=1;}if(Np==36&&destiny[7]==0){fobidden(36);destiny[7]=1;destroy=1;}
 				document.getElementById('msg').innerHTML += "<span class = 'nc'>鳴人</span>走了&nbsp<span class = 'dice'>"+(d1+d2)+"</span>&nbsp步,走到&nbsp<span class = 'spot'>"+map[Np]+"</span><br>";
-				if(hit==1){document.getElementById('msg').innerHTML += "<span class = 'nc'>鳴人</span>對<span class = 'hc'>輝夜</span>造成了&nbsp<span class = 'hurt'>"+damage(N_ATK,H_DEF).toFixed(0)+"&nbsp</span>的傷害<br>";}
+				if(hit==1&&H_die==0){document.getElementById('msg').innerHTML += "<span class = 'nc'>鳴人</span>對<span class = 'hc'>輝夜</span>造成了&nbsp<span class = 'hurt'>"+damage(N_ATK,H_DEF).toFixed(0)+"&nbsp</span>的傷害<br>";}
+				if(H_HP<=0){H_die=1;document.getElementById('msg').innerHTML += "<span class = 'hc'>輝夜</span>陣亡了";}
 				if(destroy==1){document.getElementById('msg').innerHTML += "<span class = 'nc'>鳴人</span>封印了這裡<br> <span class = 'hc'>輝夜</span>暫時無法從這裡獲得尾獸<br>";}
 				if(Np==0&&village[0]==1){recover(1);village[0]=0;document.getElementById('msg').innerHTML += "<span class = 'nc'>鳴人</span>修復了<span class = 'spot'>木葉村!</span><br>";}
 				if(Np==8&&village[1]==1){recover(2);village[1]=0;document.getElementById('msg').innerHTML += "<span class = 'nc'>鳴人</span>修復了<span class = 'spot'>雲隱村!</span><br>";}
@@ -727,10 +729,12 @@
 				H[Hp] = 1;
 				if(Hp==0&&village[0]==0){village[0]=1;destroy=1;}if(Hp==8&&village[1]==0){village[1]=1;destroy=1;}if(Hp==35&&village[2]==0){village[2]=1;destroy=1;}if(Hp==24&&village[3]==0){village[3]=1;destroy=1;}if(Hp==16&&village[4]==0){village[4]=1;destroy=1;}
 				document.getElementById('msg').innerHTML += "<span class = 'hc'>輝夜</span>走了&nbsp<span class = 'dice'>"+(d1+d2)+"</span>&nbsp步,走到&nbsp<span class = 'spot'>"+map[Hp]+"</span><br>";
-				if(hitN==1&&N_HP>0){document.getElementById('msg').innerHTML += "<span class = 'hc'>輝夜</span>對<span class = 'nc'>鳴人</span>造成了&nbsp<span class = 'hurt'>"+damage(H_ATK,N_DEF).toFixed(0)+"&nbsp</span>的傷害<br>";
+				if(hitN==1&&N_die==0){document.getElementById('msg').innerHTML += "<span class = 'hc'>輝夜</span>對<span class = 'nc'>鳴人</span>造成了&nbsp<span class = 'hurt'>"+damage(H_ATK,N_DEF).toFixed(0)+"&nbsp</span>的傷害<br>";
 				N_ATK=m_NATK;N_DEF=m_NDEF;}
-				if(hitS==1&&S_HP>0){document.getElementById('msg').innerHTML += "<span class = 'hc'>輝夜</span>對<span class = 'sc'>佐助</span>造成了&nbsp<span class = 'hurt'>"+damage(H_ATK,S_DEF).toFixed(0)+"&nbsp</span>的傷害<br>";
+				if(N_HP<=0){N_die=1;document.getElementById('msg').innerHTML += "<span class = 'nc'>鳴人</span>陣亡了";}
+				if(hitS==1&&S_die==0){document.getElementById('msg').innerHTML += "<span class = 'hc'>輝夜</span>對<span class = 'sc'>佐助</span>造成了&nbsp<span class = 'hurt'>"+damage(H_ATK,S_DEF).toFixed(0)+"&nbsp</span>的傷害<br>";
 				S_ATK=m_SATK;S_DEF=m_SDEF;}H_EQ();
+				if(S_HP<=0){S_die=1;document.getElementById('msg').innerHTML += "<span class = 'sc'>佐助</span>陣亡了";}
 				if(Hp==4&&destiny[0]==1){release(4);destiny[0]=0;R=1;}if(Hp==7&&destiny[1]==1){release(7);destiny[1]=0;R=1;}if(Hp==11&&destiny[2]==1){release(11);destiny[2]=0;R=1;}if(Hp==14&&destiny[3]==1){release(14);destiny[3]=0;R=1;}if(Hp==20&&destiny[4]==1){release(20);destiny[4]=0;R=1;}
 				if(Hp==23&&destiny[5]==1){release(23);destiny[5]=0;R=1;}if(Hp==28&&destiny[6]==1){release(28);destiny[6]=0;R=1;}if(Hp==36&&destiny[7]==1){release(36);destiny[7]=0;R=1;}
 				if(R==1){document.getElementById('msg').innerHTML += "<span class = 'hc'>輝夜</span>解開封印了<br>"}
