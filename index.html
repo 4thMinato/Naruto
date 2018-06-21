@@ -73,8 +73,8 @@
 					 margin-bottom: 19px;
 					 text-align: center;
 					 font-weight: bold;}
-			.s		{width: 26px;
-					 height: 26px;
+			.s		{width: 30px;
+					 height: 30px;
 					 float: left;}
 			.s2		{width: 26px;
 					 height: 26px;
@@ -84,6 +84,9 @@
 					 height: 26px;
 					 position: relative;
 					 top: 4px;}
+			.sb		{width: 40px;
+					 height: 40px;
+					 float: left;}
 			font	{position: relative;
 					 top: -4px;}
 			span.sc	{color: blue;
@@ -219,7 +222,7 @@
 				for(var i = 1; i <= 5;i++){recover(i);}
 				release(4);release(7);release(11);release(14);release(20);release(23);release(28);release(36);max_S = 0;max_N=0;
 				roll();
-				a[0].innerHTML = "<img src = '鳴人.png' class = 's'><img src = '佐助.png' class = 's'><img src = '輝夜.png' class = 's'>";
+				a[0].innerHTML = "<img src = '鳴人.png' id = 'nr' class = 's'><img src = '佐助.png' id='sk' class = 's'><img src = '輝夜.png' id ='kg' class = 's'>";
 				for(var i = 1; i < 39; i++){a[i].innerHTML = "";S[i] = 0;N[i] = 0;H[i] = 0;}
 				for(var i = 0; i < 5;i++){village[i]=0;}
 				for(var i = 0; i < 6;i++){N_equipment[i]=0;S_equipment[i]=0;}
@@ -236,41 +239,41 @@
 			
 			function setMap(){
 				if(final==1){
-					if(Sp == Np){a[Np].innerHTML = "<img src = '鳴人.png' class = 's'><img src = '佐助.png' class = 's'>";a[Hp].innerHTML = "<img src = '輝夜.png' class = 's'>";document.getElementById('t'+Sp).style.borderColor="white";}
+					if(Sp == Np){a[Np].innerHTML = "<img src = '鳴人.png' id = 'nr' class = 's'><img src = '佐助.png' id = 'sk' class = 's'>";a[Hp].innerHTML = "<img src = '輝夜.png' id = 'kg' class = 's'>";document.getElementById('t'+Sp).style.borderColor="white";}
 					else {
-						a[Np].innerHTML = "<img src = '鳴人.png' class = 's'>";
-						a[Sp].innerHTML = "<img src = '佐助.png' class = 's'>";
+						a[Np].innerHTML = "<img src = '鳴人.png' id = 'nr' class = 's'>";
+						a[Sp].innerHTML = "<img src = '佐助.png' id = 'sk' class = 's'>";
 						document.getElementById('t'+Sp).style.borderColor="white";
 						document.getElementById('t'+Np).style.borderColor="white";
 					}
 				}
 				else if(S_HP<=0){
-					if(Hp == Np){a[Np].innerHTML = "<img src = '鳴人.png' class = 's'><img src = '輝夜.png' class = 's'>";a[Sp].innerHTML = "<img src = '佐助.png' class = 's'>";document.getElementById('t'+Np).style.borderColor="white";}
+					if(Hp == Np){a[Np].innerHTML = "<img src = '鳴人.png' id = 'nr' class = 's'><img src = '輝夜.png' id = 'kg' class = 's'>";a[Sp].innerHTML = "<img src = '佐助.png' id = 'sk' class = 's'>";document.getElementById('t'+Np).style.borderColor="white";}
 					else {
-						a[Np].innerHTML = "<img src = '鳴人.png' class = 's'>";
-						a[Hp].innerHTML = "<img src = '輝夜.png' class = 's'>";
+						a[Np].innerHTML = "<img src = '鳴人.png' id = 'nr' class = 's'>";
+						a[Hp].innerHTML = "<img src = '輝夜.png' id = 'kg' class = 's'>";
 						document.getElementById('t'+Hp).style.borderColor="white";
 						document.getElementById('t'+Np).style.borderColor="white";
 					}
 				}
 				else if(N_HP<=0){
-					if(Sp == Hp){a[Sp].innerHTML = "<img src = '佐助.png' class = 's'><img src = '輝夜.png' class = 's'>";a[Np].innerHTML = "<img src = '鳴人.png' class = 's'>";document.getElementById('t'+Hp).style.borderColor="white";}
+					if(Sp == Hp){a[Sp].innerHTML = "<img src = '佐助.png' id = 'sk' class = 's'><img src = '輝夜.png' id = 'kg' class = 's'>";a[Np].innerHTML = "<img src = '鳴人.png' id = 'nr' class = 's'>";document.getElementById('t'+Hp).style.borderColor="white";}
 					else {
-						a[Sp].innerHTML = "<img src = '佐助.png' class = 's'>";
-						a[Hp].innerHTML = "<img src = '輝夜.png' class = 's'>";
+						a[Sp].innerHTML = "<img src = '佐助.png' id = 'sk' class = 's'>";
+						a[Hp].innerHTML = "<img src = '輝夜.png' id = 'kg' class = 's'>";
 						document.getElementById('t'+Hp).style.borderColor="white";
 						document.getElementById('t'+Sp).style.borderColor="white";
 					}
 				}
 				else {
-					if(Sp == Np && Sp == Hp){a[Np].innerHTML = "<img src = '鳴人.png' class = 's'><img src = '佐助.png' class = 's'><img src = '輝夜.png' class = 's'>";document.getElementById('t'+Hp).style.borderColor="white";}
-					else if(Sp == Np){a[Np].innerHTML = "<img src = '鳴人.png' class = 's'><img src = '佐助.png' class = 's'>";a[Hp].innerHTML = "<img src = '輝夜.png' class = 's'>";document.getElementById('t'+Np).style.borderColor="white";}
-					else if(Hp == Np){a[Np].innerHTML = "<img src = '鳴人.png' class = 's'><img src = '輝夜.png' class = 's'>";a[Sp].innerHTML = "<img src = '佐助.png' class = 's'>";document.getElementById('t'+Hp).style.borderColor="white";}
-					else if(Sp == Hp){a[Sp].innerHTML = "<img src = '佐助.png' class = 's'><img src = '輝夜.png' class = 's'>";a[Np].innerHTML = "<img src = '鳴人.png' class = 's'>";document.getElementById('t'+Hp).style.borderColor="white";}
+					if(Sp == Np && Sp == Hp){a[Np].innerHTML = "<img src = '鳴人.png'  id = 'nr' class = 's'><img src = '佐助.png' id = 'sk' class = 's'><img src = '輝夜.png' id = 'kg' class = 's'>";document.getElementById('t'+Hp).style.borderColor="white";}
+					else if(Sp == Np){a[Np].innerHTML = "<img src = '鳴人.png' id = 'nr' class = 's'><img src = '佐助.png' id = 'sk' class = 's'>";a[Hp].innerHTML = "<img src = '輝夜.png' id = 'kg' class = 's'>";document.getElementById('t'+Np).style.borderColor="white";}
+					else if(Hp == Np){a[Np].innerHTML = "<img src = '鳴人.png' id = 'nr' class = 's'><img src = '輝夜.png' id = 'kg' class = 's'>";a[Sp].innerHTML = "<img src = '佐助.png' id = 'sk' class = 's'>";document.getElementById('t'+Hp).style.borderColor="white";}
+					else if(Sp == Hp){a[Sp].innerHTML = "<img src = '佐助.png' id = 'sk' class = 's'><img src = '輝夜.png' id = 'kg' class = 's'>";a[Np].innerHTML = "<img src = '鳴人.png' id = 'nr' class = 's'>";document.getElementById('t'+Hp).style.borderColor="white";}
 					else {
-						a[Np].innerHTML = "<img src = '鳴人.png' class = 's'>";
-						a[Sp].innerHTML = "<img src = '佐助.png' class = 's'>";
-						a[Hp].innerHTML = "<img src = '輝夜.png' class = 's'>";
+						a[Np].innerHTML = "<img src = '鳴人.png' id = 'nr' class = 's'>";
+						a[Sp].innerHTML = "<img src = '佐助.png' id = 'sk' class = 's'>";
+						a[Hp].innerHTML = "<img src = '輝夜.png' id = 'kg' class = 's'>";
 						document.getElementById('t'+Np).style.borderColor="white";
 						document.getElementById('t'+Hp).style.borderColor="white";
 						document.getElementById('t'+Sp).style.borderColor="white";
@@ -832,7 +835,7 @@
 			
 			function s_skill(){
 				var choose = 0;
-				choose = window.prompt("佐助可以使用兩個技能,請從中挑一個.(0: 取消, 1: 控制骰子點數, 2: 跟鳴人或佐助互換)","1");
+				choose = window.prompt("佐助可以使用兩個技能,請從中挑一個.(0: 取消, 1: 控制骰子點數, 2: 跟鳴人或輝夜互換)","1");
 				while(choose<1||choose>2){
 					if(choose == 0)return;
 					alert("輸入錯誤!請重新輸入!");
@@ -900,6 +903,18 @@
 				document.getElementById('msg').scrollTop = document.getElementById('msg').scrollHeight;
 			}
 			
+			function b_nr(){document.getElementById('nr').setAttribute('class','sb');}
+			
+			function s_nr(){document.getElementById('nr').setAttribute('class','s');}
+			
+			function b_sk(){document.getElementById('sk').setAttribute('class','sb');}
+			
+			function s_sk(){document.getElementById('sk').setAttribute('class','s');}
+			
+			function b_kg(){document.getElementById('kg').setAttribute('class','sb');}
+			
+			function s_kg(){document.getElementById('kg').setAttribute('class','s');}
+			
 			window.addEventListener( "load", start, false );
 		</script>
 	</head>
@@ -907,7 +922,7 @@
 		<table border = "1" class = 'a'>
 			<caption><font class = 'a'>第四次忍界大戰<br></font></caption>
 			<tbody><tr style = 'height :11%'>
-				<td background="木葉村.jpg" style = "background-size: 100% 100%;"id = 't0'><div id = 'a0'><img src = '鳴人.png' class = 's'><img src = '佐助.png' class = 's'><img src = '輝夜.png' class = 's'></div></td>
+				<td background="木葉村.jpg" style = "background-size: 100% 100%;"id = 't0'><div id = 'a0'><img src = '鳴人.png' id = 'nr' class = 's'><img src = '佐助.png' id = 'sk' class = 's'><img src = '輝夜.png' id = 'kg' class = 's'></div></td>
 				<td background="木葉森林.jpg" style = "background-size: 100% 100%;"id = 't1'><div id = 'a1'></div></td>
 				<td background="木葉訓練場.jpg" style = "background-size: 100% 100%;"id = 't2'><div id = 'a2'></div></td>
 				<td background="木葉森林深處.jpg" style = "background-size: 100% 100%;"id = 't3'><div id = 'a3'></div></td>
@@ -952,9 +967,9 @@
 					<input id = "play" type = "button" onclick="restart()" value = "restart" style = 'float: left; margin-top: 10px; margin-left: 5px;height:40px; width: 70px;'>
 					<input id = "rollButton" type = "button" value = "Roll Dice" style = 'float: left; margin-top: 10px; margin-left: 5px; height:30px; width: 70px;'>
 					<input id = "confirm" type = "button" value = "confirm" style = 'float: left; margin-top: 10px; margin-left: 5px; height:30px; width: 70px;'>
-					<div id = 'n' class = 'd' style = 'background-color: yellow;border-color: yellow;'>鳴人</div>
-					<div id = 's' class = 'c' style = 'background-color: #9566F2;border-color: #9566F2;'>佐助</div>
-					<div id = 'h' class = 'c' style = 'background-color: #ED4B31;border-color: #ED4B31;'>大筒木輝夜</div>
+					<div id = 'n' class = 'd' onmouseover = 'b_nr()' onmouseout = "s_nr()" style = 'background-color: yellow;border-color: yellow;'>鳴人</div>
+					<div id = 's' class = 'c' onmouseover = 'b_sk()' onmouseout = "s_sk()" style = 'background-color: #9566F2;border-color: #9566F2;'>佐助</div>
+					<div id = 'h' class = 'c' onmouseover = 'b_kg()' onmouseout = "s_kg()" style = 'background-color: #ED4B31;border-color: #ED4B31;'>大筒木輝夜</div>
 					<input id = "h_skill" onclick="h_skill()" type = "button" value = "skill" style = 'float: right; margin-bottom: 10px; margin-right: 12px;width: 29%;height:18px;border:2px black double;background-color:#ED4B31;'>
 					<input id = "s_skill" onclick="s_skill()" type = "button" value = "skill" style = 'float: right; margin-bottom: 10px; margin-right: 10px;width: 29%;height:18px;border:2px black double;background-color:#9566F2;'>
 					<input id = "n_skill" onclick="n_skill()"  type = "button"value = "skill" style = 'float: right; margin-bottom: 10px; margin-right: 10px;width: 29%;height:18px;border:2px black double;background-color:yellow;'>
