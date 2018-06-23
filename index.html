@@ -734,10 +734,10 @@
 				document.getElementById('msg').innerHTML += "<span class = 'hc'>輝夜</span>走了&nbsp<span class = 'dice'>"+(d1+d2)+"</span>&nbsp步,走到&nbsp<span class = 'spot'>"+map[Hp]+"</span><br>";
 				if(hitN==1&&N_die==0){document.getElementById('msg').innerHTML += "<span class = 'hc'>輝夜</span>對<span class = 'nc'>鳴人</span>造成了&nbsp<span class = 'hurt'>"+damage(H_ATK,N_DEF).toFixed(0)+"&nbsp</span>的傷害<br>";
 				N_ATK=m_NATK;N_DEF=m_NDEF;}
-				if(N_HP<=0){N_die=1;document.getElementById('msg').innerHTML += "<span class = 'nc'>鳴人</span>陣亡了";}
+				if(N_HP<=0){N_die=1;document.getElementById('msg').innerHTML += "<span class = 'nc'>鳴人</span>陣亡了<br>";}
 				if(hitS==1&&S_die==0){document.getElementById('msg').innerHTML += "<span class = 'hc'>輝夜</span>對<span class = 'sc'>佐助</span>造成了&nbsp<span class = 'hurt'>"+damage(H_ATK,S_DEF).toFixed(0)+"&nbsp</span>的傷害<br>";
 				S_ATK=m_SATK;S_DEF=m_SDEF;}H_EQ();
-				if(S_HP<=0){S_die=1;document.getElementById('msg').innerHTML += "<span class = 'sc'>佐助</span>陣亡了";}
+				if(S_HP<=0){S_die=1;document.getElementById('msg').innerHTML += "<span class = 'sc'>佐助</span>陣亡了<br>";}
 				if(Hp==4&&destiny[0]==1){release(4);destiny[0]=0;R=1;}if(Hp==7&&destiny[1]==1){release(7);destiny[1]=0;R=1;}if(Hp==11&&destiny[2]==1){release(11);destiny[2]=0;R=1;}if(Hp==14&&destiny[3]==1){release(14);destiny[3]=0;R=1;}if(Hp==20&&destiny[4]==1){release(20);destiny[4]=0;R=1;}
 				if(Hp==23&&destiny[5]==1){release(23);destiny[5]=0;R=1;}if(Hp==28&&destiny[6]==1){release(28);destiny[6]=0;R=1;}if(Hp==36&&destiny[7]==1){release(36);destiny[7]=0;R=1;}
 				if(R==1){document.getElementById('msg').innerHTML += "<span class = 'hc'>輝夜</span>解開封印了<br>"}
