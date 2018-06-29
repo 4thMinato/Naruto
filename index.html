@@ -471,11 +471,10 @@
 			}
 			
 			function fight2(){
-				if(turns==0){N_cool = 100000;S_cool = 100000;}
-				if(turns%2 == 1){document.getElementById('s').setAttribute('class', 'c');document.getElementById('n').setAttribute('class', 'd');document.getElementById('h').setAttribute('class', 'c');}
-				else if (turns%2 == 0){document.getElementById('s').setAttribute('class', 'd');document.getElementById('n').setAttribute('class', 'c');document.getElementById('h').setAttribute('class', 'c');}
+				if(turns==0||turns==1){N_cool = 100000;S_cool = 100000;}
 				if(turns%2 == 0&&turns!=N_cool){
 					Naruto2();
+					document.getElementById('s').setAttribute('class', 'd');document.getElementById('n').setAttribute('class', 'c');document.getElementById('h').setAttribute('class', 'c');
 					if(m_NHP>=N_HP+r_NHP)N_HP += r_NHP;
 					else if(m_NHP!=N_HP)N_HP=m_NHP;
 					N_ATK+=r_NATK;N_DEF += r_NDEF;detail();
@@ -484,6 +483,7 @@
 				}
 				else if(turns%2 == 1){
 					Sasuke2();
+					document.getElementById('s').setAttribute('class', 'c');document.getElementById('n').setAttribute('class', 'd');document.getElementById('h').setAttribute('class', 'c');
 					if(m_SHP>=S_HP+r_SHP)S_HP += r_SHP;
 					else if(m_SHP!=S_HP)S_HP=m_SHP;
 					S_ATK+=r_SATK;S_DEF += r_SDEF;detail();
@@ -536,7 +536,7 @@
 				}
 				if(turns%3 == 2){confirm.disabled = true;
 					button.disabled = false;}
-				if(H_HP<=0){document.getElementById('msg').innerHTML+="<span class = 'nc'>鳴人</span>和<span class = 'sc'>佐助</span>聯手戰勝了<span class = 'hc'>輝夜</span>!";win = 1;turns = 0;confirm.disabled = false;button.disabled = true;document.getElementById('END').setAttribute("class","end2");
+				if(H_HP<=0){document.getElementById('s').setAttribute('class', 'c');document.getElementById('n').setAttribute('class', 'c');document.getElementById('h').setAttribute('class', 'c');document.getElementById('msg').innerHTML+="<span class = 'nc'>鳴人</span>和<span class = 'sc'>佐助</span>聯手戰勝了<span class = 'hc'>輝夜</span>!<br>";win = 1;turns = turns % 2;confirm.disabled = false;button.disabled = true;document.getElementById('END').setAttribute("class","end2");
 					document.getElementById('END').innerHTML="<img src = '封印.jpg' style='border:10px black solid;width: 576px;height: 350;'><br>&nbsp&nbsp&nbsp<span class = 'end'>恭喜過關</span>"
 					setTimeout("document.getElementById('END').innerHTML=''",3000);setTimeout(Winning,3100);N_cool==100000;S_cool==100000;return;}
 				if(N_HP<=0&&S_HP<=0){document.getElementById('msg').innerHTML+="<span class = 'hc'>輝夜</span>統治世界!<br><span class = 'hc'>回去再練練吧!</span>";win = 1;turns = 0;confirm.disabled = false;button.disabled = true;setTimeout(Winning,100);return;}
@@ -571,7 +571,8 @@
 					if(final==1){
 						document.getElementById('END').setAttribute("class","end2");
 						document.getElementById('END').innerHTML="<img src = '佐助VS鳴人.jpg' style='border:10px black solid;'><br>&nbsp&nbsp&nbsp<span class = 'end'>最終決戰</span>"
-						document.getElementById('s').setAttribute('class', 'c');document.getElementById('n').setAttribute('class', 'd');document.getElementById('h').setAttribute('class', 'c');
+						if(turns == 1){document.getElementById('s').setAttribute('class', 'd');document.getElementById('n').setAttribute('class', 'c');document.getElementById('h').setAttribute('class', 'c');}
+						if(turns == 0){document.getElementById('s').setAttribute('class', 'c');document.getElementById('n').setAttribute('class', 'd');document.getElementById('h').setAttribute('class', 'c');}
 						if(N_cool+14<=turns||N_cool==100000)document.getElementById("n_skill").disabled = false;
 						setTimeout("document.getElementById('END').innerHTML=''",5000);
 					}
